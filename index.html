@@ -4048,7 +4048,7 @@
       const hint = row.querySelector("[data-krange]");
       const max = maxes[i];
       const lower = (i === rows.length - 1) ? 0 : maxes[i+1] + 1;
-      const text = (max === null) ? `Skor ${lower}+` : `Skor ${lower}–${max}`;
+      const text = (max === null) ? `Skor ${lower}–100` : `Skor ${lower}–${max}`;
       hint.textContent = text;
     });
   }
