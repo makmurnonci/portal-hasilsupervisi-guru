@@ -1217,7 +1217,10 @@
           <div class="chip active" data-guru-filter="semua">Semua</div>
           <div class="chip" data-guru-filter="tetap">Guru Tetap</div>
           <div class="chip" data-guru-filter="honor">Guru Honorer</div>
-          <div class="chip" data-guru-filter="rendah">Skor &lt; 70</div>
+          <div class="chip" data-guru-filter="rendah" id="chipSkorRendah">
+            <span id="chipSkorRendahLabel">Skor &lt; 70</span>
+            <span id="chipSkorRendahEdit" title="Ubah ambang batas skor" style="margin-left:5px; opacity:0.55; font-size:10.5px; text-decoration:underline; cursor:pointer;">ubah</span>
+          </div>
         </div>
       </div>
 
@@ -2990,6 +2993,7 @@
       else parsed.kategoriNilai = migrateKategoriNilaiShape(parsed.kategoriNilai);
       if(!parsed.pinnedLinks) parsed.pinnedLinks = [];
       if(!parsed.sekolahInstrumenTemplate || !parsed.sekolahInstrumenTemplate.length) parsed.sekolahInstrumenTemplate = JSON.parse(JSON.stringify(DEFAULT_SEKOLAH_INSTRUMEN_TEMPLATE));
+      if(!parsed.guruSkorRendahThreshold || isNaN(Number(parsed.guruSkorRendahThreshold))) parsed.guruSkorRendahThreshold = 70;
       migrateGuruShape(parsed);
       return parsed;
     }catch(e){
@@ -3002,7 +3006,8 @@
         kategoriNilai: JSON.parse(JSON.stringify(DEFAULT_KATEGORI_NILAI)),
         sekolahInstrumenTemplate: JSON.parse(JSON.stringify(DEFAULT_SEKOLAH_INSTRUMEN_TEMPLATE)),
         aspekTemplateProses: JSON.parse(JSON.stringify(DEFAULT_ASPEK_TEMPLATE_PROSES)),
-        aspekTemplateAdministrasi: JSON.parse(JSON.stringify(DEFAULT_ASPEK_TEMPLATE_ADMINISTRASI))
+        aspekTemplateAdministrasi: JSON.parse(JSON.stringify(DEFAULT_ASPEK_TEMPLATE_ADMINISTRASI)),
+        guruSkorRendahThreshold: 70
       };
     }
   }
@@ -3020,6 +3025,15 @@
   // Skor per jenis instrumen
   function guruSkorProses(g){ return guruNilaiPersen(g && g.proses ? g.proses.aspek : []); }
   function guruSkorAdministrasi(g){ return guruNilaiPersen(g && g.administrasi ? g.administrasi.aspek : []); }
+  // Ambang batas "skor rendah" pada chip filter — bisa diubah pengguna (klik "ubah")
+  function guruSkorRendahThreshold(){
+    const t = Number(state.guruSkorRendahThreshold);
+    return (t>0 && t<=100) ? t : 70;
+  }
+  function renderChipSkorRendahLabel(){
+    const el = document.getElementById("chipSkorRendahLabel");
+    if(el) el.textContent = "Skor < " + guruSkorRendahThreshold();
+  }
   // Skor gabungan (rata-rata dari instrumen yang sudah ada nilainya)
   function guruOverallScore(g){
     const vals = [guruSkorProses(g), guruSkorAdministrasi(g)].filter(v=>v>0);
@@ -3038,7 +3052,7 @@
     if(sekolahFilter !== "semua") gurus = gurus.filter(g=>g.sekolahId===sekolahFilter);
     if(statusFilter === "tetap") gurus = gurus.filter(g=>g.status==="tetap");
     else if(statusFilter === "honor") gurus = gurus.filter(g=>g.status==="honor");
-    else if(statusFilter === "rendah") gurus = gurus.filter(g=>{ const o=guruOverallScore(g); return o>0 && o<70; });
+    else if(statusFilter === "rendah") gurus = gurus.filter(g=>{ const o=guruOverallScore(g); return o>0 && o<guruSkorRendahThreshold(); });
 
     grid.innerHTML = "";
     if(gurus.length===0){
@@ -3614,6 +3628,24 @@
       renderGuruGrid();
     });
   });
+  renderChipSkorRendahLabel();
+  (function(){
+    const editBtn = document.getElementById("chipSkorRendahEdit");
+    if(!editBtn) return;
+    editBtn.addEventListener("click",(e)=>{
+      e.stopPropagation();
+      const current = guruSkorRendahThreshold();
+      const input = prompt("Tampilkan guru dengan skor di bawah berapa? (1–100)", current);
+      if(input === null) return;
+      const val = Math.max(1, Math.min(100, Math.round(Number(input))));
+      if(!val || isNaN(val)){ showToast("Masukkan angka yang valid (1–100)"); return; }
+      state.guruSkorRendahThreshold = val;
+      saveState();
+      renderChipSkorRendahLabel();
+      renderGuruGrid();
+      showToast(`Ambang batas skor rendah diubah menjadi < ${val}`);
+    });
+  })();
 
   // ===== Render: Agenda Tabel (view lengkap) =====
   function renderAgendaTable(filter="semua"){
