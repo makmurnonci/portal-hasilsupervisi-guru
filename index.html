@@ -3163,22 +3163,21 @@
 
   function updateSupervisiSummary(jenis){
     const aspek = readAspekFromEditor(jenis);
-    const avg = avgGuruScore(aspek);
     const nilaiPersen = guruNilaiPersen(aspek);
     const st = guruStatusClass(nilaiPersen);
     const suf = jenisSuf(jenis);
     const scoreEl = document.getElementById("supervisiAvgScore" + suf);
     const badge = document.getElementById("supervisiAvgBadge" + suf);
-    if(scoreEl) scoreEl.textContent = avg > 0 ? avg : "—";
+    if(scoreEl) scoreEl.textContent = (aspek.length && nilaiPersen > 0) ? nilaiPersen : "—";
     if(badge){
-      badge.textContent = avg > 0 ? guruStatusLabel(nilaiPersen) : "—";
-      badge.className = "sum-status status-badge " + (avg > 0 ? st : "");
+      badge.textContent = (aspek.length && nilaiPersen > 0) ? guruStatusLabel(nilaiPersen) : "—";
+      badge.className = "sum-status status-badge " + ((aspek.length && nilaiPersen > 0) ? st : "");
     }
-    renderSkorPenilaianBox(jenis, aspek, avg);
+    renderSkorPenilaianBox(jenis, aspek);
   }
 
-  // ===== Kotak Skor Penilaian (jumlah nilai & nilai rata-rata guru) =====
-  function renderSkorPenilaianBox(jenis, aspek, avg){
+  // ===== Kotak Skor Penilaian (jumlah nilai & nilai persentase guru) =====
+  function renderSkorPenilaianBox(jenis, aspek){
     const suf = jenisSuf(jenis);
     const legendEl = document.getElementById("spbLegend" + suf);
     const maxEl = document.getElementById("spbSkorMax" + suf);
@@ -3188,15 +3187,13 @@
     if(!legendEl || !maxEl || !perolehanEl || !nilaiEl || !kategoriEl) return;
 
     aspek = aspek || readAspekFromEditor(jenis);
-    if(avg === undefined) avg = avgGuruScore(aspek);
     const jumlahAspek = aspek.length;
     // Nilai tiap aspek diisi langsung dalam skala rubrik (mis. 1–4: Kurang..Baik Sekali).
     // Skor Perolehan = jumlah (total) nilai semua aspek. Skor Max = jumlah aspek x 4.
     const skorPerolehan = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
     const skorMax = jumlahAspek * 4;
-    // Kategori ditentukan dari PERSENTASE skor perolehan terhadap skor max
-    // (bukan dari angka rata-rata mentah "Nilai"), agar sinkron dengan ambang batas
-    // persentase 0–100 pada menu Kategori Nilai.
+    // Nilai = (Skor Perolehan ÷ Skor Max) x 100 — dan KATEGORI ditentukan dari persentase
+    // ini, mengikuti rentang skor maksimal per kategori yang diatur di menu Kategori Nilai.
     const nilaiPersen = guruNilaiPersen(aspek);
 
     // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
@@ -3212,7 +3209,7 @@
 
     maxEl.textContent = jumlahAspek ? skorMax : "—";
     perolehanEl.textContent = jumlahAspek ? skorPerolehan : "—";
-    nilaiEl.textContent = jumlahAspek ? avg : "—";
+    nilaiEl.textContent = jumlahAspek ? nilaiPersen : "—";
 
     if(jumlahAspek && skorPerolehan > 0){
       const status = guruStatusClass(nilaiPersen);
