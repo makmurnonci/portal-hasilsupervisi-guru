@@ -3162,8 +3162,12 @@
     aspek = aspek || readAspekFromEditor(jenis);
     if(avg === undefined) avg = avgGuruScore(aspek);
     const jumlahAspek = aspek.length;
-    const skorPerolehan = aspek.reduce((a,b)=>a+Number(b.skor||0),0); // jumlah nilai
-    const skorMax = jumlahAspek * 100;
+    // Aspek diinput dengan skala 0–100 (persentase), dikonversi ke skala rubrik 1–4
+    // (1=Perlu Pembinaan, 2=Cukup, 3=Baik, 4=Sangat Baik) agar Skor Max & Skor Perolehan
+    // sesuai format instrumen supervisi standar (mis. 15 aspek x 4 = 60).
+    const sumPersen = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
+    const skorMax = jumlahAspek * 4;
+    const skorPerolehan = Math.round(sumPersen / 25); // 100/4 = 25 poin per tingkat rubrik
 
     // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
     const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>b.min-a.min);
