@@ -665,6 +665,8 @@
   .jenis-toggle-btn.active{ background:var(--navy); border-color:var(--navy); color:var(--white); }
   .jenis-block{ display:none; }
   .jenis-block.active{ display:block; }
+  .ijenis-block{ display:none; }
+  .ijenis-block.active{ display:block; }
 
   /* Aspek penilaian rows */
   .aspek-group { margin-bottom: 20px; }
@@ -1549,7 +1551,7 @@
             <input type="text" id="gTglSupervisiProses" placeholder="cth. 28 Jun 2026">
           </div>
           <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;">
-            Isi label aspek, deskripsi/temuan observasi, dan nilai (0–100) untuk setiap komponen proses pembelajaran. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
+            Isi label aspek, deskripsi/temuan observasi, dan nilai (skala rubrik 1–4: Kurang, Cukup, Baik, Baik Sekali) untuk setiap komponen proses pembelajaran. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
           </p>
           <div class="skor-penilaian-box" id="skorPenilaianBoxProses">
             <div class="spb-legend">
@@ -1581,7 +1583,7 @@
             <input type="text" id="gTglSupervisiAdministrasi" placeholder="cth. 28 Jun 2026">
           </div>
           <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;">
-            Isi label aspek, deskripsi/temuan observasi, dan nilai (0–100) untuk setiap komponen administrasi guru. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
+            Isi label aspek, deskripsi/temuan observasi, dan nilai (skala rubrik 1–4: Kurang, Cukup, Baik, Baik Sekali) untuk setiap komponen administrasi guru. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
           </p>
           <div class="skor-penilaian-box" id="skorPenilaianBoxAdministrasi">
             <div class="spb-legend">
@@ -2134,27 +2136,27 @@
         tglSupervisi:"14 Jun 2026", catatan:"Guru menunjukkan penguasaan materi yang baik dan mampu mengaitkan konsep matematika dengan kehidupan sehari-hari. Manajemen kelas cukup kondusif.",
         rekomendasi:["Tingkatkan penggunaan media visual interaktif","Variasikan metode asesmen formatif"],
         aspek:[
-          { label:"Kegiatan Pendahuluan (Apersepsi & Motivasi)", deskripsi:"Apersepsi dikaitkan dengan kehidupan sehari-hari siswa.", skor:82 },
-          { label:"Penguasaan Materi & Kompetensi Pedagogik", deskripsi:"Materi dikuasai dengan baik, memberikan contoh kontekstual.", skor:85 },
-          { label:"Penerapan Strategi/Model Pembelajaran", deskripsi:"Menggunakan diskusi kelompok kecil.", skor:80 },
-          { label:"Penggunaan Media & Sumber Belajar", deskripsi:"Menggunakan papan tulis dan buku teks, belum memanfaatkan media digital.", skor:65 },
-          { label:"Pengelolaan Kelas & Interaksi Siswa", deskripsi:"Kelas kondusif, siswa aktif bertanya.", skor:79 },
-          { label:"Kegiatan Penutup (Refleksi & Kesimpulan)", deskripsi:"Simpulan disampaikan bersama siswa.", skor:81 },
-          { label:"Penilaian Proses & Umpan Balik Siswa", deskripsi:"Asesmen dilakukan di akhir pembelajaran, umpan balik sudah diberikan.", skor:78 },
+          { label:"Kegiatan Pendahuluan (Apersepsi & Motivasi)", deskripsi:"Apersepsi dikaitkan dengan kehidupan sehari-hari siswa.", skor:3 },
+          { label:"Penguasaan Materi & Kompetensi Pedagogik", deskripsi:"Materi dikuasai dengan baik, memberikan contoh kontekstual.", skor:3 },
+          { label:"Penerapan Strategi/Model Pembelajaran", deskripsi:"Menggunakan diskusi kelompok kecil.", skor:3 },
+          { label:"Penggunaan Media & Sumber Belajar", deskripsi:"Menggunakan papan tulis dan buku teks, belum memanfaatkan media digital.", skor:2 },
+          { label:"Pengelolaan Kelas & Interaksi Siswa", deskripsi:"Kelas kondusif, siswa aktif bertanya.", skor:3 },
+          { label:"Kegiatan Penutup (Refleksi & Kesimpulan)", deskripsi:"Simpulan disampaikan bersama siswa.", skor:3 },
+          { label:"Penilaian Proses & Umpan Balik Siswa", deskripsi:"Asesmen dilakukan di akhir pembelajaran, umpan balik sudah diberikan.", skor:3 },
         ],
         riwayat:[] },
       administrasi: {
         tglSupervisi:"10 Jun 2026", catatan:"Kelengkapan dokumen administrasi cukup baik, beberapa perlu diperbarui.",
         rekomendasi:["Lengkapi jurnal harian mengajar 2 minggu terakhir"],
         aspek:[
-          { label:"Program Tahunan & Program Semester", deskripsi:"Lengkap dan sesuai kalender pendidikan.", skor:88 },
-          { label:"Silabus / Capaian Pembelajaran", deskripsi:"Sesuai kurikulum Merdeka.", skor:85 },
-          { label:"RPP / Modul Ajar", deskripsi:"RPP sudah sesuai kurikulum Merdeka, tujuan pembelajaran terukur.", skor:82 },
-          { label:"Kalender Pendidikan & Jadwal Pelajaran", deskripsi:"Tersedia dan terpasang di kelas.", skor:90 },
-          { label:"Daftar Nilai / Buku Nilai Siswa", deskripsi:"Terisi rutin.", skor:80 },
-          { label:"Presensi / Daftar Hadir Siswa", deskripsi:"Lengkap.", skor:92 },
-          { label:"Jurnal Harian Mengajar", deskripsi:"Belum lengkap untuk 2 minggu terakhir.", skor:65 },
-          { label:"Analisis Hasil Belajar & Program Remedial/Pengayaan", deskripsi:"Sudah ada namun belum rutin.", skor:70 },
+          { label:"Program Tahunan & Program Semester", deskripsi:"Lengkap dan sesuai kalender pendidikan.", skor:3 },
+          { label:"Silabus / Capaian Pembelajaran", deskripsi:"Sesuai kurikulum Merdeka.", skor:3 },
+          { label:"RPP / Modul Ajar", deskripsi:"RPP sudah sesuai kurikulum Merdeka, tujuan pembelajaran terukur.", skor:3 },
+          { label:"Kalender Pendidikan & Jadwal Pelajaran", deskripsi:"Tersedia dan terpasang di kelas.", skor:4 },
+          { label:"Daftar Nilai / Buku Nilai Siswa", deskripsi:"Terisi rutin.", skor:3 },
+          { label:"Presensi / Daftar Hadir Siswa", deskripsi:"Lengkap.", skor:4 },
+          { label:"Jurnal Harian Mengajar", deskripsi:"Belum lengkap untuk 2 minggu terakhir.", skor:2 },
+          { label:"Analisis Hasil Belajar & Program Remedial/Pengayaan", deskripsi:"Sudah ada namun belum rutin.", skor:2 },
         ],
         riwayat:[] } },
     { id:"gr2", sekolahId:"sk3", nama:"Dewi Rahayu, S.Pd.I.", nip:"",
@@ -2163,27 +2165,27 @@
         tglSupervisi:"14 Jun 2026", catatan:"Guru honorerer dengan semangat tinggi. Perlu pendampingan lebih lanjut dalam pengelolaan asesmen.",
         rekomendasi:["Ikuti pelatihan asesmen formatif","Lengkapi dokumen RPP"],
         aspek:[
-          { label:"Kegiatan Pendahuluan (Apersepsi & Motivasi)", deskripsi:"Apersepsi singkat, motivasi perlu ditingkatkan.", skor:66 },
-          { label:"Penguasaan Materi & Kompetensi Pedagogik", deskripsi:"Penguasaan materi cukup, perlu eksplorasi strategi literasi.", skor:72 },
-          { label:"Penerapan Strategi/Model Pembelajaran", deskripsi:"Masih dominan ceramah.", skor:60 },
-          { label:"Penggunaan Media & Sumber Belajar", deskripsi:"Belum menggunakan media pendukung.", skor:60 },
-          { label:"Pengelolaan Kelas & Interaksi Siswa", deskripsi:"Beberapa siswa kurang terlibat aktif.", skor:65 },
-          { label:"Kegiatan Penutup (Refleksi & Kesimpulan)", deskripsi:"Penutup terburu-buru.", skor:63 },
-          { label:"Penilaian Proses & Umpan Balik Siswa", deskripsi:"Penilaian hanya berupa UH, belum ada asesmen formatif berkala.", skor:62 },
+          { label:"Kegiatan Pendahuluan (Apersepsi & Motivasi)", deskripsi:"Apersepsi singkat, motivasi perlu ditingkatkan.", skor:2 },
+          { label:"Penguasaan Materi & Kompetensi Pedagogik", deskripsi:"Penguasaan materi cukup, perlu eksplorasi strategi literasi.", skor:2 },
+          { label:"Penerapan Strategi/Model Pembelajaran", deskripsi:"Masih dominan ceramah.", skor:2 },
+          { label:"Penggunaan Media & Sumber Belajar", deskripsi:"Belum menggunakan media pendukung.", skor:2 },
+          { label:"Pengelolaan Kelas & Interaksi Siswa", deskripsi:"Beberapa siswa kurang terlibat aktif.", skor:2 },
+          { label:"Kegiatan Penutup (Refleksi & Kesimpulan)", deskripsi:"Penutup terburu-buru.", skor:2 },
+          { label:"Penilaian Proses & Umpan Balik Siswa", deskripsi:"Penilaian hanya berupa UH, belum ada asesmen formatif berkala.", skor:2 },
         ],
         riwayat:[] },
       administrasi: {
         tglSupervisi:"10 Jun 2026", catatan:"Kelengkapan dokumen administrasi masih perlu banyak pembinaan.",
         rekomendasi:["Lengkapi RPP dengan profil pelajar Pancasila","Tertibkan jurnal harian mengajar"],
         aspek:[
-          { label:"Program Tahunan & Program Semester", deskripsi:"Belum lengkap.", skor:60 },
-          { label:"Silabus / Capaian Pembelajaran", deskripsi:"Perlu penyesuaian.", skor:65 },
-          { label:"RPP / Modul Ajar", deskripsi:"RPP belum dilengkapi profil pelajar Pancasila.", skor:68 },
-          { label:"Kalender Pendidikan & Jadwal Pelajaran", deskripsi:"Tersedia.", skor:75 },
-          { label:"Daftar Nilai / Buku Nilai Siswa", deskripsi:"Terisi namun kurang rapi.", skor:65 },
-          { label:"Presensi / Daftar Hadir Siswa", deskripsi:"Lengkap.", skor:80 },
-          { label:"Jurnal Harian Mengajar", deskripsi:"Belum lengkap untuk 2 minggu terakhir.", skor:60 },
-          { label:"Analisis Hasil Belajar & Program Remedial/Pengayaan", deskripsi:"Belum tersedia.", skor:55 },
+          { label:"Program Tahunan & Program Semester", deskripsi:"Belum lengkap.", skor:2 },
+          { label:"Silabus / Capaian Pembelajaran", deskripsi:"Perlu penyesuaian.", skor:2 },
+          { label:"RPP / Modul Ajar", deskripsi:"RPP belum dilengkapi profil pelajar Pancasila.", skor:2 },
+          { label:"Kalender Pendidikan & Jadwal Pelajaran", deskripsi:"Tersedia.", skor:3 },
+          { label:"Daftar Nilai / Buku Nilai Siswa", deskripsi:"Terisi namun kurang rapi.", skor:2 },
+          { label:"Presensi / Daftar Hadir Siswa", deskripsi:"Lengkap.", skor:3 },
+          { label:"Jurnal Harian Mengajar", deskripsi:"Belum lengkap untuk 2 minggu terakhir.", skor:2 },
+          { label:"Analisis Hasil Belajar & Program Remedial/Pengayaan", deskripsi:"Belum tersedia.", skor:1 },
         ],
         riwayat:[] } },
     { id:"gr3", sekolahId:"sk5", nama:"Agus Kurniawan, M.Pd.", nip:"19780515 200312 1 001",
@@ -2192,27 +2194,27 @@
         tglSupervisi:"21 Jun 2026", catatan:"Guru berpengalaman dengan kemampuan mengajar yang sangat baik. Model pembelajaran berbasis proyek diterapkan secara konsisten.",
         rekomendasi:["Jadikan model pengajar bagi rekan sejawat","Dokumentasikan praktik baik dalam bentuk artikel/PTK"],
         aspek:[
-          { label:"Kegiatan Pendahuluan (Apersepsi & Motivasi)", deskripsi:"Apersepsi menarik dan kontekstual.", skor:94 },
-          { label:"Penguasaan Materi & Kompetensi Pedagogik", deskripsi:"Mumpuni, memberikan pengalaman belajar bermakna.", skor:94 },
-          { label:"Penerapan Strategi/Model Pembelajaran", deskripsi:"Pembelajaran berbasis proyek diterapkan konsisten.", skor:95 },
-          { label:"Penggunaan Media & Sumber Belajar", deskripsi:"Memanfaatkan laboratorium dan media digital secara optimal.", skor:96 },
-          { label:"Pengelolaan Kelas & Interaksi Siswa", deskripsi:"Kelas sangat aktif dan kolaboratif.", skor:92 },
-          { label:"Kegiatan Penutup (Refleksi & Kesimpulan)", deskripsi:"Refleksi mendalam bersama siswa.", skor:93 },
-          { label:"Penilaian Proses & Umpan Balik Siswa", deskripsi:"Portofolio siswa dikelola dengan baik.", skor:93 },
+          { label:"Kegiatan Pendahuluan (Apersepsi & Motivasi)", deskripsi:"Apersepsi menarik dan kontekstual.", skor:4 },
+          { label:"Penguasaan Materi & Kompetensi Pedagogik", deskripsi:"Mumpuni, memberikan pengalaman belajar bermakna.", skor:4 },
+          { label:"Penerapan Strategi/Model Pembelajaran", deskripsi:"Pembelajaran berbasis proyek diterapkan konsisten.", skor:4 },
+          { label:"Penggunaan Media & Sumber Belajar", deskripsi:"Memanfaatkan laboratorium dan media digital secara optimal.", skor:4 },
+          { label:"Pengelolaan Kelas & Interaksi Siswa", deskripsi:"Kelas sangat aktif dan kolaboratif.", skor:4 },
+          { label:"Kegiatan Penutup (Refleksi & Kesimpulan)", deskripsi:"Refleksi mendalam bersama siswa.", skor:4 },
+          { label:"Penilaian Proses & Umpan Balik Siswa", deskripsi:"Portofolio siswa dikelola dengan baik.", skor:4 },
         ],
         riwayat:[] },
       administrasi: {
         tglSupervisi:"18 Jun 2026", catatan:"Administrasi sangat rapi dan lengkap.",
         rekomendasi:["Jadikan contoh tata kelola administrasi bagi guru lain"],
         aspek:[
-          { label:"Program Tahunan & Program Semester", deskripsi:"Sangat lengkap.", skor:97 },
-          { label:"Silabus / Capaian Pembelajaran", deskripsi:"Lengkap dan inovatif.", skor:95 },
-          { label:"RPP / Modul Ajar", deskripsi:"Modul ajar sangat lengkap dan inovatif.", skor:95 },
-          { label:"Kalender Pendidikan & Jadwal Pelajaran", deskripsi:"Tersedia dan rapi.", skor:96 },
-          { label:"Daftar Nilai / Buku Nilai Siswa", deskripsi:"Terisi rapi dan rutin.", skor:94 },
-          { label:"Presensi / Daftar Hadir Siswa", deskripsi:"Lengkap.", skor:97 },
-          { label:"Jurnal Harian Mengajar", deskripsi:"Lengkap dan tepat waktu.", skor:96 },
-          { label:"Analisis Hasil Belajar & Program Remedial/Pengayaan", deskripsi:"Rutin dilakukan setiap unit.", skor:93 },
+          { label:"Program Tahunan & Program Semester", deskripsi:"Sangat lengkap.", skor:4 },
+          { label:"Silabus / Capaian Pembelajaran", deskripsi:"Lengkap dan inovatif.", skor:4 },
+          { label:"RPP / Modul Ajar", deskripsi:"Modul ajar sangat lengkap dan inovatif.", skor:4 },
+          { label:"Kalender Pendidikan & Jadwal Pelajaran", deskripsi:"Tersedia dan rapi.", skor:4 },
+          { label:"Daftar Nilai / Buku Nilai Siswa", deskripsi:"Terisi rapi dan rutin.", skor:4 },
+          { label:"Presensi / Daftar Hadir Siswa", deskripsi:"Lengkap.", skor:4 },
+          { label:"Jurnal Harian Mengajar", deskripsi:"Lengkap dan tepat waktu.", skor:4 },
+          { label:"Analisis Hasil Belajar & Program Remedial/Pengayaan", deskripsi:"Rutin dilakukan setiap unit.", skor:4 },
         ],
         riwayat:[] } },
   ];
@@ -2982,6 +2984,36 @@
     return parsed;
   }
 
+  // Migrasi skala nilai instrumen Administrasi Guru: versi lama memakai skala 0–100,
+  // sekarang disamakan dengan instrumen Proses Pembelajaran (skala rubrik 1–4).
+  // Nilai lama dikonversi memakai ambang batas kategori yang sama (Kurang/Cukup/Baik/Baik Sekali).
+  function rescaleSkorLamaKe1sampai4(skorLama){
+    const v = Number(skorLama) || 0;
+    if(v >= 90) return 4;
+    if(v >= 75) return 3;
+    if(v >= 60) return 2;
+    return v > 0 ? 1 : 0;
+  }
+  function migrateAdministrasiSkala(parsed){
+    if(parsed._administrasiSkala14) return parsed; // sudah pernah dimigrasi
+    (parsed.guru||[]).forEach(g=>{
+      if(g.administrasi && Array.isArray(g.administrasi.aspek)){
+        g.administrasi.aspek.forEach(a=>{
+          if(Number(a.skor) > 4) a.skor = rescaleSkorLamaKe1sampai4(a.skor);
+        });
+      }
+      if(Array.isArray(g.administrasi && g.administrasi.riwayat)){
+        g.administrasi.riwayat.forEach(r=>{
+          (r.aspek||[]).forEach(a=>{
+            if(Number(a.skor) > 4) a.skor = rescaleSkorLamaKe1sampai4(a.skor);
+          });
+        });
+      }
+    });
+    parsed._administrasiSkala14 = true;
+    return parsed;
+  }
+
   function loadStateWithGuru(){
     try{
       const raw = localStorage.getItem(STORE_KEY);
@@ -2995,6 +3027,7 @@
       if(!parsed.sekolahInstrumenTemplate || !parsed.sekolahInstrumenTemplate.length) parsed.sekolahInstrumenTemplate = JSON.parse(JSON.stringify(DEFAULT_SEKOLAH_INSTRUMEN_TEMPLATE));
       if(!parsed.guruSkorRendahThreshold || isNaN(Number(parsed.guruSkorRendahThreshold))) parsed.guruSkorRendahThreshold = 70;
       migrateGuruShape(parsed);
+      migrateAdministrasiSkala(parsed);
       return parsed;
     }catch(e){
       return {
@@ -3023,8 +3056,8 @@
   function guruStatusLabel(s){ return labelForStatus(guruStatusFromScore(s)); }
   function guruStatusClass(s){ return guruStatusFromScore(s); }
   // Skor per jenis instrumen
-  function guruSkorProses(g){ return guruNilaiPersen(g && g.proses ? g.proses.aspek : []); }
-  function guruSkorAdministrasi(g){ return guruNilaiPersen(g && g.administrasi ? g.administrasi.aspek : []); }
+  function guruSkorProses(g){ return guruNilaiPersen(g && g.proses ? g.proses.aspek : [], "proses"); }
+  function guruSkorAdministrasi(g){ return guruNilaiPersen(g && g.administrasi ? g.administrasi.aspek : [], "administrasi"); }
   // Ambang batas "skor rendah" pada chip filter — bisa diubah pengguna (klik "ubah")
   function guruSkorRendahThreshold(){
     const t = Number(state.guruSkorRendahThreshold);
@@ -3132,6 +3165,9 @@
 
   function jenisSuf(jenis){ return jenis === "administrasi" ? "Administrasi" : "Proses"; }
   function jenisLabel(jenis){ return jenis === "administrasi" ? "Administrasi Guru" : "Proses Pembelajaran"; }
+  // Skala nilai per-aspek disamakan untuk kedua jenis instrumen:
+  // skala rubrik 1–4 (Kurang, Cukup, Baik, Baik Sekali).
+  function perAspekMax(jenis){ return 4; }
 
   function renderAspekEditor(aspek, jenis){
     const wrap = document.getElementById("aspekEditorWrap" + jenisSuf(jenis));
@@ -3145,7 +3181,7 @@
           <input class="aspek-label-input" type="text" value="${escapeHtml(a.label)}" data-idx="${idx}" data-afield="label" placeholder="Nama aspek penilaian">
           <textarea class="aspek-desc-input" data-idx="${idx}" data-afield="deskripsi" placeholder="Deskripsi / temuan observasi (opsional)..." rows="2">${escapeHtml(a.deskripsi||'')}</textarea>
         </div>
-        <input class="aspek-score-input" type="number" min="0" max="100" value="${a.skor||0}" data-idx="${idx}" data-afield="skor">
+        <input class="aspek-score-input" type="number" min="0" max="${perAspekMax(jenis)}" value="${a.skor||0}" data-idx="${idx}" data-afield="skor">
         <button type="button" class="icon-btn danger" data-aidx="${idx}" data-action="delAspek" title="Hapus aspek">✕</button>
       `;
       row.querySelectorAll("input,textarea").forEach(el=>{
@@ -3161,23 +3197,23 @@
     return Array.from(rows).map(row=>({
       label: row.querySelector('[data-afield="label"]').value.trim() || "Aspek",
       deskripsi: row.querySelector('[data-afield="deskripsi"]').value.trim(),
-      skor: Math.max(0, Math.min(100, Number(row.querySelector('[data-afield="skor"]').value)||0))
+      skor: Math.max(0, Math.min(perAspekMax(jenis), Number(row.querySelector('[data-afield="skor"]').value)||0))
     }));
   }
 
   // Persentase perolehan terhadap skor max (dipakai khusus untuk menentukan KATEGORI,
   // supaya kategori sinkron dengan ambang batas persentase 0–100 di menu Kategori Nilai,
-  // meski nilai per-aspek diisi dalam skala rubrik kecil seperti 1–4)
-  function guruNilaiPersen(aspek){
+  // meski nilai per-aspek diisi dalam skala rubrik kecil 1–4)
+  function guruNilaiPersen(aspek, jenis){
     if(!aspek || !aspek.length) return 0;
     const sum = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
-    const max = aspek.length * 4;
+    const max = aspek.length * perAspekMax(jenis);
     return max ? Math.round((sum/max)*100) : 0;
   }
 
   function updateSupervisiSummary(jenis){
     const aspek = readAspekFromEditor(jenis);
-    const nilaiPersen = guruNilaiPersen(aspek);
+    const nilaiPersen = guruNilaiPersen(aspek, jenis);
     const st = guruStatusClass(nilaiPersen);
     const suf = jenisSuf(jenis);
     const scoreEl = document.getElementById("supervisiAvgScore" + suf);
@@ -3202,13 +3238,14 @@
 
     aspek = aspek || readAspekFromEditor(jenis);
     const jumlahAspek = aspek.length;
-    // Nilai tiap aspek diisi langsung dalam skala rubrik (mis. 1–4: Kurang..Baik Sekali).
-    // Skor Perolehan = jumlah (total) nilai semua aspek. Skor Max = jumlah aspek x 4.
+    // Kedua jenis instrumen (Proses Pembelajaran & Administrasi Guru): nilai tiap aspek
+    // diisi dalam skala rubrik 1–4 (Kurang, Cukup, Baik, Baik Sekali), jadi Skor Max =
+    // jumlah aspek x 4. Skor Perolehan = jumlah (total) nilai semua aspek.
     const skorPerolehan = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
-    const skorMax = jumlahAspek * 4;
+    const skorMax = jumlahAspek * perAspekMax(jenis);
     // Nilai = (Skor Perolehan ÷ Skor Max) x 100 — dan KATEGORI ditentukan dari persentase
     // ini, mengikuti rentang skor maksimal per kategori yang diatur di menu Kategori Nilai.
-    const nilaiPersen = guruNilaiPersen(aspek);
+    const nilaiPersen = guruNilaiPersen(aspek, jenis);
 
     // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
     const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>
@@ -3298,7 +3335,7 @@
     const btnRiwayat = document.getElementById("btnSimpanRiwayat");
     if(btnRiwayat) btnRiwayat.title = `Simpan hasil supervisi ${jenisLabel(jenis)} ini ke riwayat dan mulai sesi baru`;
   }
-  document.querySelectorAll(".jenis-toggle-btn").forEach(btn=>{
+  document.querySelectorAll(".jenis-toggle-btn:not(.ijenis-toggle-btn)").forEach(btn=>{
     btn.addEventListener("click", ()=> setActiveJenisInstrumen(btn.dataset.jenis));
   });
 
@@ -3804,6 +3841,14 @@
   function colorForSkor(skor){
     return colorForStatus(autoStatusFromScore(skor));
   }
+  // Sama seperti colorForSkor, tapi mengonversi skor mentah ke persentase sesuai skala jenis
+  // instrumen (Proses = per-aspek maks 4, Administrasi = per-aspek maks 100) sebelum dicocokkan
+  // ke ambang batas kategori (yang selalu dalam skala 0–100).
+  function colorForSkorJenis(skor, jenis){
+    const max = perAspekMax(jenis);
+    const persen = max ? (Number(skor||0)/max)*100 : 0;
+    return colorForStatus(autoStatusFromScore(persen));
+  }
 
   function renderInstrumenSekolahRekap(){
     const wrap = document.getElementById("instrumenSekolahRekap");
@@ -3995,14 +4040,14 @@
       const skorCells = aspekLabels.map(label=>{
         const match = aspek.find(a=>a.label===label);
         const skor = match ? (match.skor||0) : "—";
-        const color = typeof skor==="number" ? colorForSkor(skor) : "var(--ink-soft)";
+        const color = typeof skor==="number" ? colorForSkorJenis(skor, jenis) : "var(--ink-soft)";
         return `<td style="text-align:center;font-weight:700;color:${color};">${skor}</td>`;
       }).join("");
-      const avg = aspek.length ? Math.round(aspek.reduce((a,x)=>a+(x.skor||0),0)/aspek.length) : 0;
+      const avg = aspek.length ? Math.round((aspek.reduce((a,x)=>a+(x.skor||0),0)/aspek.length) * 10)/10 : 0;
       return `<tr>
         <td style="font-weight:600;">${escapeHtml(g.nama)}</td>
         ${skorCells}
-        <td style="text-align:center;font-weight:700;color:${colorForSkor(avg)};">${avg||"—"}</td>
+        <td style="text-align:center;font-weight:700;color:${colorForSkorJenis(avg, jenis)};">${avg||"—"}</td>
       </tr>`;
     }).join("");
   }
