@@ -709,6 +709,54 @@
   }
   .supervisi-summary-bar .sum-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; }
 
+  /* ===== Kotak Skor Penilaian (jumlah nilai & nilai rata-rata) ===== */
+  .skor-penilaian-box{
+    display:flex; align-items:stretch; gap:0;
+    border:1px solid var(--line); border-radius:6px; overflow:hidden;
+    margin-bottom:18px; background:var(--white);
+  }
+  .spb-legend{
+    flex:1 1 260px; background:var(--cream-2);
+    border-right:1px solid var(--line);
+  }
+  .spb-legend-title{
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-soft); text-align:center; padding:8px 10px;
+    border-bottom:1px solid var(--line); background:var(--cream-2);
+  }
+  .spb-legend-row{
+    display:flex; align-items:center; gap:8px; padding:6px 12px;
+    font-size:12.5px; color:var(--ink); border-bottom:1px solid var(--line);
+  }
+  .spb-legend-row:last-child{ border-bottom:none; }
+  .spb-legend-num{
+    width:20px; height:20px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Source Serif 4',serif; font-weight:700; font-size:11.5px;
+    color:var(--white);
+  }
+  .spb-stats{
+    flex:0 0 150px; display:flex; flex-direction:column;
+    border-right:1px solid var(--line);
+  }
+  .spb-stat{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:10px 8px; border-bottom:1px solid var(--line);
+  }
+  .spb-stat:last-child{ border-bottom:none; }
+  .spb-stat-label{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:4px; }
+  .spb-stat-value{ font-family:'Source Serif 4',serif; font-weight:700; font-size:17px; color:var(--navy-deep); }
+  .spb-nilai{
+    flex:0 0 190px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:var(--cream); border-right:1px solid var(--line); padding:10px 8px;
+  }
+  .spb-nilai-label{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:6px; }
+  .spb-nilai-value{ font-family:'Source Serif 4',serif; font-weight:700; font-size:34px; color:var(--navy-deep); line-height:1; }
+  .spb-kategori{
+    flex:0 0 130px; display:flex; align-items:center; justify-content:center; text-align:center;
+    font-weight:700; font-size:14px; padding:10px; line-height:1.3;
+  }
+
   /* Catatan tab */
   .catatan-area {
     width: 100%; min-height: 180px; padding: 12px; border: 1px solid var(--line);
@@ -1500,6 +1548,27 @@
           <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;">
             Isi label aspek, deskripsi/temuan observasi, dan nilai (0–100) untuk setiap komponen proses pembelajaran. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
           </p>
+          <div class="skor-penilaian-box" id="skorPenilaianBoxProses">
+            <div class="spb-legend">
+              <div class="spb-legend-title">Skor Penilaian</div>
+              <div id="spbLegendProses"><!-- diisi JS --></div>
+            </div>
+            <div class="spb-stats">
+              <div class="spb-stat">
+                <div class="spb-stat-label">Skor Max</div>
+                <div class="spb-stat-value" id="spbSkorMaxProses">—</div>
+              </div>
+              <div class="spb-stat">
+                <div class="spb-stat-label">Skor Perolehan</div>
+                <div class="spb-stat-value" id="spbSkorPerolehanProses">—</div>
+              </div>
+            </div>
+            <div class="spb-nilai">
+              <div class="spb-nilai-label">Nilai</div>
+              <div class="spb-nilai-value" id="spbNilaiProses">—</div>
+            </div>
+            <div class="spb-kategori" id="spbKategoriProses">—</div>
+          </div>
           <div id="aspekEditorWrapProses"><!-- diisi JS --></div>
           <button class="add-row-btn" id="btnAddAspekProses">+ Tambah aspek penilaian</button>
         </div>
@@ -1511,6 +1580,27 @@
           <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;">
             Isi label aspek, deskripsi/temuan observasi, dan nilai (0–100) untuk setiap komponen administrasi guru. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
           </p>
+          <div class="skor-penilaian-box" id="skorPenilaianBoxAdministrasi">
+            <div class="spb-legend">
+              <div class="spb-legend-title">Skor Penilaian</div>
+              <div id="spbLegendAdministrasi"><!-- diisi JS --></div>
+            </div>
+            <div class="spb-stats">
+              <div class="spb-stat">
+                <div class="spb-stat-label">Skor Max</div>
+                <div class="spb-stat-value" id="spbSkorMaxAdministrasi">—</div>
+              </div>
+              <div class="spb-stat">
+                <div class="spb-stat-label">Skor Perolehan</div>
+                <div class="spb-stat-value" id="spbSkorPerolehanAdministrasi">—</div>
+              </div>
+            </div>
+            <div class="spb-nilai">
+              <div class="spb-nilai-label">Nilai</div>
+              <div class="spb-nilai-value" id="spbNilaiAdministrasi">—</div>
+            </div>
+            <div class="spb-kategori" id="spbKategoriAdministrasi">—</div>
+          </div>
           <div id="aspekEditorWrapAdministrasi"><!-- diisi JS --></div>
           <button class="add-row-btn" id="btnAddAspekAdministrasi">+ Tambah aspek penilaian</button>
         </div>
@@ -3055,6 +3145,49 @@
     if(badge){
       badge.textContent = avg > 0 ? guruStatusLabel(avg) : "—";
       badge.className = "sum-status status-badge " + (avg > 0 ? st : "");
+    }
+    renderSkorPenilaianBox(jenis, aspek, avg);
+  }
+
+  // ===== Kotak Skor Penilaian (jumlah nilai & nilai rata-rata guru) =====
+  function renderSkorPenilaianBox(jenis, aspek, avg){
+    const suf = jenisSuf(jenis);
+    const legendEl = document.getElementById("spbLegend" + suf);
+    const maxEl = document.getElementById("spbSkorMax" + suf);
+    const perolehanEl = document.getElementById("spbSkorPerolehan" + suf);
+    const nilaiEl = document.getElementById("spbNilai" + suf);
+    const kategoriEl = document.getElementById("spbKategori" + suf);
+    if(!legendEl || !maxEl || !perolehanEl || !nilaiEl || !kategoriEl) return;
+
+    aspek = aspek || readAspekFromEditor(jenis);
+    if(avg === undefined) avg = avgGuruScore(aspek);
+    const jumlahAspek = aspek.length;
+    const skorPerolehan = aspek.reduce((a,b)=>a+Number(b.skor||0),0); // jumlah nilai
+    const skorMax = jumlahAspek * 100;
+
+    // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
+    const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>b.min-a.min);
+    legendEl.innerHTML = kategoriUrut.map((k,i)=>`
+      <div class="spb-legend-row">
+        <span class="spb-legend-num" style="background:${k.color};">${kategoriUrut.length - i}</span>
+        <span>${escapeHtml(k.label)}</span>
+      </div>
+    `).join("");
+
+    maxEl.textContent = jumlahAspek ? skorMax : "—";
+    perolehanEl.textContent = jumlahAspek ? skorPerolehan : "—";
+    nilaiEl.textContent = jumlahAspek ? avg : "—";
+
+    if(jumlahAspek && avg > 0){
+      const status = guruStatusClass(avg);
+      const color = colorForStatus(status);
+      kategoriEl.textContent = guruStatusLabel(avg);
+      kategoriEl.style.background = color;
+      kategoriEl.style.color = "var(--white)";
+    } else {
+      kategoriEl.textContent = "—";
+      kategoriEl.style.background = "var(--cream-2)";
+      kategoriEl.style.color = "var(--ink-soft)";
     }
   }
 
