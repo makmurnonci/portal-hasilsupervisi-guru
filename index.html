@@ -2032,10 +2032,10 @@
 
   // ===== Data contoh (default) =====
   const DEFAULT_KATEGORI_NILAI = [
-    { key:"baik_sekali", label:"Baik Sekali", min:90, color:"var(--green)" },
-    { key:"baik",        label:"Baik",        min:75, color:"var(--blue)"  },
-    { key:"cukup",       label:"Cukup",       min:60, color:"var(--amber)" },
-    { key:"kurang",      label:"Kurang",      min:0,  color:"var(--red)"   },
+    { key:"baik_sekali", label:"Baik Sekali", max:null, color:"var(--green)" },
+    { key:"baik",        label:"Baik",        max:89,   color:"var(--blue)"  },
+    { key:"cukup",       label:"Cukup",       max:74,   color:"var(--amber)" },
+    { key:"kurang",      label:"Kurang",      max:59,   color:"var(--red)"   },
   ];
   const DEFAULT_SEKOLAH = [
     { npsn:"20104551", nama:"SDN 04 Mekarsari", jenjang:"sd", tingkat:"SD Negeri", skor:58, status:"kurang",
@@ -2282,9 +2282,12 @@
     return Math.round(sum/instrumen.length);
   }
   function autoStatusFromScore(score){
-    const urut = [...getKategoriNilai()].sort((a,b)=>b.min-a.min);
-    const found = urut.find(k=>Number(score)>=Number(k.min));
-    return found ? found.key : urut[urut.length-1].key;
+    // Kategori disimpan urut dari peringkat tertinggi ke terendah (index 0 = terbaik, tak terbatas).
+    // Cari dari peringkat terendah ke tertinggi: kategori pertama yang skor maksimalnya >= nilai.
+    const kategori = getKategoriNilai();
+    const asc = [...kategori].reverse(); // dari skor maksimal terkecil ke terbesar (tak terbatas di akhir)
+    const found = asc.find(k => k.max === null || k.max === undefined || Number(score) <= Number(k.max));
+    return found ? found.key : kategori[kategori.length-1].key;
   }
 
   function ringSVG(score, status){
@@ -2936,6 +2939,19 @@
   // KPI, kartu rapor, dan laporan.
 
   // Migrasi data guru lama (satu instrumen flat) menjadi 2 instrumen: proses & administrasi
+  // Migrasi data kategori nilai lama (format "skor minimum") ke format baru "skor maksimal"
+  function migrateKategoriNilaiShape(kategori){
+    const isOldFormat = kategori.some(k => k && k.max === undefined && k.min !== undefined);
+    if(!isOldFormat) return kategori;
+    const urutDesc = [...kategori].sort((a,b)=>Number(b.min||0)-Number(a.min||0));
+    return urutDesc.map((k,i)=>({
+      key: k.key,
+      label: k.label,
+      max: (i === 0) ? null : Math.max(0, Number(urutDesc[i-1].min || 0) - 1),
+      color: k.color
+    }));
+  }
+
   function migrateGuruShape(parsed){
     if(!parsed.aspekTemplateProses || !parsed.aspekTemplateProses.length){
       parsed.aspekTemplateProses = (parsed.aspekTemplate && parsed.aspekTemplate.length)
@@ -2971,6 +2987,7 @@
       if(!parsed.sekolah || !parsed.agenda || !parsed.identitas) throw new Error("invalid shape");
       if(!parsed.guru) parsed.guru = JSON.parse(JSON.stringify(DEFAULT_GURU));
       if(!parsed.kategoriNilai || !parsed.kategoriNilai.length) parsed.kategoriNilai = JSON.parse(JSON.stringify(DEFAULT_KATEGORI_NILAI));
+      else parsed.kategoriNilai = migrateKategoriNilaiShape(parsed.kategoriNilai);
       if(!parsed.pinnedLinks) parsed.pinnedLinks = [];
       if(!parsed.sekolahInstrumenTemplate || !parsed.sekolahInstrumenTemplate.length) parsed.sekolahInstrumenTemplate = JSON.parse(JSON.stringify(DEFAULT_SEKOLAH_INSTRUMEN_TEMPLATE));
       migrateGuruShape(parsed);
@@ -3168,7 +3185,9 @@
     const skorMax = jumlahAspek * 4;
 
     // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
-    const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>b.min-a.min);
+    const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>
+      (b.max===null||b.max===undefined ? Infinity : b.max) - (a.max===null||a.max===undefined ? Infinity : a.max)
+    );
     legendEl.innerHTML = kategoriUrut.map((k,i)=>`
       <div class="spb-legend-row">
         <span class="spb-legend-num" style="background:${k.color};">${kategoriUrut.length - i}</span>
@@ -3969,7 +3988,7 @@
     if(!wrap) return;
     const kategori = getKategoriNilai();
     wrap.innerHTML = kategori.map((k,i)=>{
-      const isLast = i === kategori.length - 1;
+      const isFirst = i === 0; // kategori tertinggi/terbaik = tak terbatas ke atas
       return `
       <div class="kategori-row">
         <span class="kategori-dot" style="background:${k.color};"></span>
@@ -3978,14 +3997,15 @@
           <input type="text" value="${escapeHtml(k.label)}" data-knidx="${i}" data-kfield="label" placeholder="Nama kategori">
         </div>
         <div class="kategori-field min-field">
-          <label>Skor Minimum</label>
-          <input type="number" min="0" max="100" value="${k.min}" data-knidx="${i}" data-kfield="min" ${isLast ? "readonly" : ""}>
+          <label>Skor Maksimal</label>
+          <input type="${isFirst ? "text" : "number"}" data-knidx="${i}" data-kfield="max"
+            value="${isFirst ? "Tidak terbatas" : (k.max ?? 0)}" ${isFirst ? "readonly" : ""}>
         </div>
         <div class="kategori-range-hint" data-krange="${i}"></div>
       </div>`;
     }).join("");
     updateKategoriRangeHints();
-    wrap.querySelectorAll('input[data-kfield="min"]').forEach(inp=>{
+    wrap.querySelectorAll('input[data-kfield="max"]').forEach(inp=>{
       inp.addEventListener("input", updateKategoriRangeHints);
     });
   }
@@ -3995,12 +4015,12 @@
     const current = getKategoriNilai();
     return rows.map((row,i)=>{
       const labelInput = row.querySelector('[data-kfield="label"]');
-      const minInput = row.querySelector('[data-kfield="min"]');
+      const maxInput = row.querySelector('[data-kfield="max"]');
       const base = current[i] || {};
       return {
         key: base.key || ("kat"+i),
         label: (labelInput.value.trim() || base.label || "Kategori"),
-        min: Math.max(0, Math.min(100, Number(minInput.value) || 0)),
+        max: (i === 0) ? null : Math.max(0, Number(maxInput.value) || 0),
         color: base.color || "var(--ink-soft)"
       };
     });
@@ -4008,14 +4028,15 @@
 
   function updateKategoriRangeHints(){
     const rows = [...document.querySelectorAll("#kategoriNilaiEditor .kategori-row")];
-    const mins = rows.map(row => Number(row.querySelector('[data-kfield="min"]').value) || 0);
+    const maxes = rows.map((row,i) => {
+      if(i === 0) return null; // tak terbatas
+      return Number(row.querySelector('[data-kfield="max"]').value) || 0;
+    });
     rows.forEach((row,i)=>{
       const hint = row.querySelector("[data-krange]");
-      const min = mins[i];
-      const nextMin = i > 0 ? mins[i-1] : null;
-      const text = (i === 0)
-        ? `Skor ${min}–100`
-        : (nextMin !== null ? `Skor ${min}–${Math.max(min, nextMin-1)}` : `Skor ${min}+`);
+      const max = maxes[i];
+      const lower = (i === rows.length - 1) ? 0 : maxes[i+1] + 1;
+      const text = (max === null) ? `Skor ${lower}+` : `Skor ${lower}–${max}`;
       hint.textContent = text;
     });
   }
@@ -4039,10 +4060,10 @@
 
   document.getElementById("btnSimpanKategoriNilai").addEventListener("click", ()=>{
     const kategoriBaru = readKategoriNilaiFromEditor();
-    // Validasi: ambang batas harus menurun (kategori pertama paling tinggi)
-    for(let i=1;i<kategoriBaru.length;i++){
-      if(kategoriBaru[i].min >= kategoriBaru[i-1].min){
-        showToast(`Skor minimum "${kategoriBaru[i].label}" harus lebih kecil dari "${kategoriBaru[i-1].label}"`);
+    // Validasi: skor maksimal harus menurun ke bawah (kategori pertama tak terbatas)
+    for(let i=2;i<kategoriBaru.length;i++){
+      if(kategoriBaru[i].max >= kategoriBaru[i-1].max){
+        showToast(`Skor maksimal "${kategoriBaru[i].label}" harus lebih kecil dari "${kategoriBaru[i-1].label}"`);
         return;
       }
     }
