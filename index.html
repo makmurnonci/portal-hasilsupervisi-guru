@@ -3151,16 +3151,27 @@
     }));
   }
 
+  // Persentase perolehan terhadap skor max (dipakai khusus untuk menentukan KATEGORI,
+  // supaya kategori sinkron dengan ambang batas persentase 0–100 di menu Kategori Nilai,
+  // meski nilai per-aspek diisi dalam skala rubrik kecil seperti 1–4)
+  function guruNilaiPersen(aspek){
+    if(!aspek || !aspek.length) return 0;
+    const sum = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
+    const max = aspek.length * 4;
+    return max ? Math.round((sum/max)*100) : 0;
+  }
+
   function updateSupervisiSummary(jenis){
     const aspek = readAspekFromEditor(jenis);
     const avg = avgGuruScore(aspek);
-    const st = guruStatusClass(avg);
+    const nilaiPersen = guruNilaiPersen(aspek);
+    const st = guruStatusClass(nilaiPersen);
     const suf = jenisSuf(jenis);
     const scoreEl = document.getElementById("supervisiAvgScore" + suf);
     const badge = document.getElementById("supervisiAvgBadge" + suf);
     if(scoreEl) scoreEl.textContent = avg > 0 ? avg : "—";
     if(badge){
-      badge.textContent = avg > 0 ? guruStatusLabel(avg) : "—";
+      badge.textContent = avg > 0 ? guruStatusLabel(nilaiPersen) : "—";
       badge.className = "sum-status status-badge " + (avg > 0 ? st : "");
     }
     renderSkorPenilaianBox(jenis, aspek, avg);
@@ -3183,6 +3194,10 @@
     // Skor Perolehan = jumlah (total) nilai semua aspek. Skor Max = jumlah aspek x 4.
     const skorPerolehan = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
     const skorMax = jumlahAspek * 4;
+    // Kategori ditentukan dari PERSENTASE skor perolehan terhadap skor max
+    // (bukan dari angka rata-rata mentah "Nilai"), agar sinkron dengan ambang batas
+    // persentase 0–100 pada menu Kategori Nilai.
+    const nilaiPersen = guruNilaiPersen(aspek);
 
     // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
     const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>
@@ -3199,10 +3214,10 @@
     perolehanEl.textContent = jumlahAspek ? skorPerolehan : "—";
     nilaiEl.textContent = jumlahAspek ? avg : "—";
 
-    if(jumlahAspek && avg > 0){
-      const status = guruStatusClass(avg);
+    if(jumlahAspek && skorPerolehan > 0){
+      const status = guruStatusClass(nilaiPersen);
       const color = colorForStatus(status);
-      kategoriEl.textContent = guruStatusLabel(avg);
+      kategoriEl.textContent = guruStatusLabel(nilaiPersen);
       kategoriEl.style.background = color;
       kategoriEl.style.color = "var(--white)";
     } else {
