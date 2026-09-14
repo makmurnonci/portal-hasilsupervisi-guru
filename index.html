@@ -3018,8 +3018,8 @@
   function guruStatusLabel(s){ return labelForStatus(guruStatusFromScore(s)); }
   function guruStatusClass(s){ return guruStatusFromScore(s); }
   // Skor per jenis instrumen
-  function guruSkorProses(g){ return avgGuruScore(g && g.proses ? g.proses.aspek : []); }
-  function guruSkorAdministrasi(g){ return avgGuruScore(g && g.administrasi ? g.administrasi.aspek : []); }
+  function guruSkorProses(g){ return guruNilaiPersen(g && g.proses ? g.proses.aspek : []); }
+  function guruSkorAdministrasi(g){ return guruNilaiPersen(g && g.administrasi ? g.administrasi.aspek : []); }
   // Skor gabungan (rata-rata dari instrumen yang sudah ada nilainya)
   function guruOverallScore(g){
     const vals = [guruSkorProses(g), guruSkorAdministrasi(g)].filter(v=>v>0);
@@ -3070,11 +3070,11 @@
           ${sekolah?`<span style="font-size:10.5px; color:var(--ink-soft);">${escapeHtml(sekolah.nama)}</span>`:''}
         </div>
         <div class="guru-score-bar-wrap">
-          <div class="guru-score-label"><span>Proses Pembelajaran</span><b style="color:${colorProses};">${skorProses>0?skorProses:'—'}</b></div>
+          <div class="guru-score-label"><span>Proses Pembelajaran</span><b style="color:${colorProses};">${skorProses>0?skorProses+'%':'—'}</b></div>
           <div class="guru-bar"><div style="width:${skorProses}%; background:${colorProses};"></div></div>
         </div>
         <div class="guru-score-bar-wrap" style="margin-top:8px;">
-          <div class="guru-score-label"><span>Administrasi Guru</span><b style="color:${colorAdmin};">${skorAdmin>0?skorAdmin:'—'}</b></div>
+          <div class="guru-score-label"><span>Administrasi Guru</span><b style="color:${colorAdmin};">${skorAdmin>0?skorAdmin+'%':'—'}</b></div>
           <div class="guru-bar"><div style="width:${skorAdmin}%; background:${colorAdmin};"></div></div>
         </div>
         <div class="guru-last-supervisi">Terakhir — Proses: <b>${escapeHtml(tglProses)||'—'}</b> · Admin: <b>${escapeHtml(tglAdmin)||'—'}</b></div>
