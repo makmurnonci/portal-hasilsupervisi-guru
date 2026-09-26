@@ -2038,9 +2038,9 @@
   // ===== Data contoh (default) =====
   const DEFAULT_KATEGORI_NILAI = [
     { key:"baik_sekali", label:"Baik Sekali", max:null, color:"var(--green)" },
-    { key:"baik",        label:"Baik",        max:89,   color:"var(--blue)"  },
-    { key:"cukup",       label:"Cukup",       max:74,   color:"var(--amber)" },
-    { key:"kurang",      label:"Kurang",      max:59,   color:"var(--red)"   },
+    { key:"baik",        label:"Baik",        max:90,   color:"var(--blue)"  },
+    { key:"cukup",       label:"Cukup",       max:80,   color:"var(--amber)" },
+    { key:"kurang",      label:"Kurang",      max:70,   color:"var(--red)"   },
   ];
   const DEFAULT_SEKOLAH = [
     { npsn:"40307746", nama:"UPTD SDN 12", jenjang:"sd", tingkat:"Sekolah Negeri", skor:0, status:"kurang",
@@ -4412,7 +4412,7 @@
   });
 
   document.getElementById("btnResetKategoriNilai").addEventListener("click", ()=>{
-    if(!confirm("Kembalikan kategori nilai ke pengaturan default (Baik Sekali ≥90, Baik ≥75, Cukup ≥60, Kurang <60)?")) return;
+    if(!confirm("Kembalikan kategori nilai ke pengaturan default (Baik Sekali 91–100, Baik 81–90, Cukup 71–80, Kurang 0–70)?")) return;
     applyKategoriNilaiSync(JSON.parse(JSON.stringify(DEFAULT_KATEGORI_NILAI)));
     renderKategoriNilaiEditor();
     showToast("Kategori nilai dikembalikan ke default");
