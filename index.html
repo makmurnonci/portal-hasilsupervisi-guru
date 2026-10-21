@@ -1407,8 +1407,8 @@
           <table class="laporan-table" id="rhsTable">
             <thead><tr>
               <th style="width:44px;">No</th><th>Nama Guru</th><th>Sekolah</th>
-              <th style="text-align:center;">Nilai Proses Pembelajaran</th>
-              <th style="text-align:center;">Nilai Administrasi Guru</th>
+              <th style="text-align:center;">Hasil Supervisi Pembelajaran</th>
+              <th style="text-align:center;">Hasil Supervisi Administrasi Pembelajaran</th>
               <th style="text-align:center;">Nilai Rapor</th>
               <th>Kategori</th>
             </tr></thead>
@@ -1416,7 +1416,7 @@
           </table>
         </div>
         <p class="no-print" style="font-size:12px;color:var(--ink-soft);margin-top:12px;line-height:1.6;">
-          Nilai Rapor = rata-rata nilai Proses Pembelajaran dan Administrasi Guru yang sudah terisi. Kategori mengikuti ambang batas pada tab <b>Kategori Nilai</b>.
+          Nilai Rapor = rata-rata Hasil Supervisi Pembelajaran dan Hasil Supervisi Administrasi Pembelajaran yang sudah terisi. Kategori mengikuti ambang batas pada tab <b>Kategori Nilai</b>.
         </p>
       </div>
 
@@ -1496,7 +1496,7 @@
       <!-- Tab: Kategori Nilai -->
       <div class="instrumen-pane" data-itab="kategori">
         <p style="font-size:13px; color:var(--ink-soft); margin-bottom:20px; line-height:1.6;">
-          Atur label dan ambang batas nilai (skor minimum) untuk tiap kategori. Pengaturan ini berlaku <b>sinkron di seluruh aspek penilaian</b> — instrumen sekolah, aspek supervisi guru, KPI, kartu rapor, hingga laporan rekap.
+          Atur label dan ambang batas nilai (skor minimum) untuk tiap kategori. Pengaturan ini berlaku <b>sinkron di seluruh nilai hasil supervisi</b> — kartu guru, rapor, KPI, hingga laporan rekap.
         </p>
         <div style="background:var(--white); border:1px solid var(--line); border-radius:6px; overflow:hidden;">
           <div id="kategoriNilaiEditor"><!-- diisi JS --></div>
@@ -1525,32 +1525,32 @@
     <!-- Summary bar -->
     <div class="supervisi-summary-bar" id="supervisiSummaryBar" style="margin: 0 28px 0; border-radius:0; border-left:none; border-right:none; border-top:none; padding:12px 0; gap:22px;">
       <div style="text-align:center;">
-        <div class="sum-label">Proses Pembelajaran</div>
+        <div class="sum-label">Hasil Supervisi Pembelajaran</div>
         <div style="display:flex;align-items:center;gap:10px;justify-content:center;">
           <div class="sum-score" id="supervisiAvgScoreProses">—</div>
           <span class="sum-status status-badge" id="supervisiAvgBadgeProses">—</span>
         </div>
       </div>
       <div style="text-align:center;">
-        <div class="sum-label">Administrasi Guru</div>
+        <div class="sum-label">Hasil Supervisi Administrasi Pembelajaran</div>
         <div style="display:flex;align-items:center;gap:10px;justify-content:center;">
           <div class="sum-score" id="supervisiAvgScoreAdministrasi">—</div>
           <span class="sum-status status-badge" id="supervisiAvgBadgeAdministrasi">—</span>
         </div>
       </div>
     </div>
-    <!-- Jenis Instrumen toggle -->
+    <!-- Toggle jenis hasil supervisi -->
     <div class="jenis-toggle" style="display:flex; gap:8px; margin:14px 28px 0;">
-      <button type="button" class="jenis-toggle-btn active" data-jenis="proses">▤ Supervisi Proses Pembelajaran</button>
-      <button type="button" class="jenis-toggle-btn" data-jenis="administrasi">▤ Supervisi Administrasi Guru</button>
+      <button type="button" class="jenis-toggle-btn active" data-jenis="proses">▤ Hasil Supervisi Pembelajaran</button>
+      <button type="button" class="jenis-toggle-btn" data-jenis="administrasi">▤ Hasil Supervisi Administrasi Pembelajaran</button>
     </div>
     <p style="font-size:11.5px; color:var(--ink-soft); margin:8px 28px 0; line-height:1.5;">
-      Pilih jenis instrumen di atas untuk mengisi <b>Aspek Penilaian</b>, <b>Catatan & Rekomendasi</b>, dan <b>Riwayat</b> — nilai dan riwayat tiap jenis instrumen tersimpan terpisah.
+      Pilih jenis hasil supervisi di atas untuk mengisi <b>Nilai Hasil Supervisi</b>, <b>Catatan & Rekomendasi</b>, dan <b>Riwayat</b> — nilai dan riwayat tiap jenis tersimpan terpisah.
     </p>
     <!-- Tabs -->
     <div class="supervisi-tabs">
       <div class="supervisi-tab active" data-spane="profil">Profil Guru</div>
-      <div class="supervisi-tab" data-spane="aspek">Aspek Penilaian</div>
+      <div class="supervisi-tab" data-spane="aspek">Nilai Hasil Supervisi</div>
       <div class="supervisi-tab" data-spane="catatan">Catatan & Rekomendasi</div>
       <div class="supervisi-tab" data-spane="riwayat">Riwayat Supervisi</div>
     </div>
@@ -1596,68 +1596,50 @@
       <!-- Pane: Aspek Penilaian -->
       <div class="supervisi-pane" data-spane="aspek">
         <div class="jenis-block active" data-jenis-block="proses">
-          <div class="field" style="margin-bottom:14px; max-width:280px;">
-            <label for="gTglSupervisiProses">Tanggal Supervisi (Proses Pembelajaran)</label>
-            <input type="text" id="gTglSupervisiProses" placeholder="cth. 28 Jun 2026">
+          <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px;">
+            <div class="field" style="width:230px;">
+              <label for="gTglSupervisiProses">Tanggal Supervisi</label>
+              <input type="text" id="gTglSupervisiProses" placeholder="cth. 28 Jun 2026">
+            </div>
+            <div class="field" style="width:290px;">
+              <label for="gNilaiProses">Nilai Hasil Supervisi Pembelajaran (0–100)</label>
+              <input type="number" id="gNilaiProses" min="0" max="100" step="1" placeholder="cth. 85">
+            </div>
           </div>
-          <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;">
-            Isi label aspek, deskripsi/temuan observasi, dan nilai (skala rubrik 1–4: Kurang, Cukup, Baik, Baik Sekali) untuk setiap komponen proses pembelajaran. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
-          </p>
-          <div class="skor-penilaian-box" id="skorPenilaianBoxProses">
+          <div class="skor-penilaian-box" id="skorPenilaianProsesBox">
             <div class="spb-legend">
-              <div class="spb-legend-title">Skor Penilaian</div>
+              <div class="spb-legend-title">Kategori Nilai</div>
               <div id="spbLegendProses"><!-- diisi JS --></div>
             </div>
-            <div class="spb-stats">
-              <div class="spb-stat">
-                <div class="spb-stat-label">Skor Max</div>
-                <div class="spb-stat-value" id="spbSkorMaxProses">—</div>
-              </div>
-              <div class="spb-stat">
-                <div class="spb-stat-label">Skor Perolehan</div>
-                <div class="spb-stat-value" id="spbSkorPerolehanProses">—</div>
-              </div>
-            </div>
             <div class="spb-nilai">
-              <div class="spb-nilai-label">Nilai</div>
+              <div class="spb-nilai-label">Nilai Rapor</div>
               <div class="spb-nilai-value" id="spbNilaiProses">—</div>
             </div>
             <div class="spb-kategori" id="spbKategoriProses">—</div>
           </div>
-          <div id="aspekEditorWrapProses"><!-- diisi JS --></div>
-          <button class="add-row-btn" id="btnAddAspekProses">+ Tambah aspek penilaian</button>
         </div>
         <div class="jenis-block" data-jenis-block="administrasi">
-          <div class="field" style="margin-bottom:14px; max-width:280px;">
-            <label for="gTglSupervisiAdministrasi">Tanggal Supervisi (Administrasi Guru)</label>
-            <input type="text" id="gTglSupervisiAdministrasi" placeholder="cth. 28 Jun 2026">
+          <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px;">
+            <div class="field" style="width:230px;">
+              <label for="gTglSupervisiAdministrasi">Tanggal Supervisi</label>
+              <input type="text" id="gTglSupervisiAdministrasi" placeholder="cth. 28 Jun 2026">
+            </div>
+            <div class="field" style="width:290px;">
+              <label for="gNilaiAdministrasi">Nilai Hasil Supervisi Administrasi Pembelajaran (0–100)</label>
+              <input type="number" id="gNilaiAdministrasi" min="0" max="100" step="1" placeholder="cth. 85">
+            </div>
           </div>
-          <p style="font-size:12px; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;">
-            Isi label aspek, deskripsi/temuan observasi, dan nilai (skala rubrik 1–4: Kurang, Cukup, Baik, Baik Sekali) untuk setiap komponen administrasi guru. Klik <b>+ Tambah aspek</b> untuk menambah komponen baru.
-          </p>
-          <div class="skor-penilaian-box" id="skorPenilaianBoxAdministrasi">
+          <div class="skor-penilaian-box" id="skorPenilaianAdministrasiBox">
             <div class="spb-legend">
-              <div class="spb-legend-title">Skor Penilaian</div>
+              <div class="spb-legend-title">Kategori Nilai</div>
               <div id="spbLegendAdministrasi"><!-- diisi JS --></div>
             </div>
-            <div class="spb-stats">
-              <div class="spb-stat">
-                <div class="spb-stat-label">Skor Max</div>
-                <div class="spb-stat-value" id="spbSkorMaxAdministrasi">—</div>
-              </div>
-              <div class="spb-stat">
-                <div class="spb-stat-label">Skor Perolehan</div>
-                <div class="spb-stat-value" id="spbSkorPerolehanAdministrasi">—</div>
-              </div>
-            </div>
             <div class="spb-nilai">
-              <div class="spb-nilai-label">Nilai</div>
+              <div class="spb-nilai-label">Nilai Rapor</div>
               <div class="spb-nilai-value" id="spbNilaiAdministrasi">—</div>
             </div>
             <div class="spb-kategori" id="spbKategoriAdministrasi">—</div>
           </div>
-          <div id="aspekEditorWrapAdministrasi"><!-- diisi JS --></div>
-          <button class="add-row-btn" id="btnAddAspekAdministrasi">+ Tambah aspek penilaian</button>
         </div>
       </div>
 
@@ -1665,7 +1647,7 @@
       <div class="supervisi-pane" data-spane="catatan">
         <div class="jenis-block active" data-jenis-block="proses">
           <div class="field">
-            <label for="gCatatanProses">Catatan Hasil Observasi — Proses Pembelajaran</label>
+            <label for="gCatatanProses">Catatan Hasil Supervisi Pembelajaran</label>
             <textarea class="catatan-area" id="gCatatanProses" placeholder="Tuliskan temuan umum, kekuatan, maupun hal-hal yang perlu ditindaklanjuti dari hasil kunjungan supervisi..."></textarea>
           </div>
           <div class="field" style="margin-top:16px;">
@@ -1676,7 +1658,7 @@
         </div>
         <div class="jenis-block" data-jenis-block="administrasi">
           <div class="field">
-            <label for="gCatatanAdministrasi">Catatan Hasil Observasi — Administrasi Guru</label>
+            <label for="gCatatanAdministrasi">Catatan Hasil Supervisi Administrasi Pembelajaran</label>
             <textarea class="catatan-area" id="gCatatanAdministrasi" placeholder="Tuliskan temuan umum, kekuatan, maupun hal-hal yang perlu ditindaklanjuti dari hasil pemeriksaan administrasi..."></textarea>
           </div>
           <div class="field" style="margin-top:16px;">
@@ -2193,9 +2175,10 @@
   function buildEmptyInstrumen(templateArr){
     return {
       tglSupervisi: "",
+      nilai: 0,
       catatan: "",
       rekomendasi: [],
-      aspek: JSON.parse(JSON.stringify(templateArr||[])).map(a=>({...a, skor:0, deskripsi:""})),
+      aspek: [],
       riwayat: []
     };
   }
@@ -3305,6 +3288,21 @@
     return parsed;
   }
 
+  // Data lama menyimpan nilai per aspek. Konversi sekali ke "nilai" hasil supervisi langsung (0–100).
+  function migrateNilaiGuruList(list){
+    (list||[]).forEach(g=>{
+      ["proses","administrasi"].forEach(jenis=>{
+        const inst = g[jenis];
+        if(!inst) return;
+        const dariAspek = a => clampNilai(guruNilaiPersen(a||[], jenis));
+        if(inst.nilai === undefined || inst.nilai === null) inst.nilai = dariAspek(inst.aspek);
+        (inst.riwayat||[]).forEach(r=>{
+          if(r.nilai === undefined || r.nilai === null) r.nilai = dariAspek(r.aspek);
+        });
+      });
+    });
+  }
+
   function loadStateWithGuru(){
     try{
       const raw = localStorage.getItem(STORE_KEY);
@@ -3319,6 +3317,7 @@
       if(!parsed.guruSkorRendahThreshold || isNaN(Number(parsed.guruSkorRendahThreshold))) parsed.guruSkorRendahThreshold = 70;
       migrateGuruShape(parsed);
       migrateAdministrasiSkala(parsed);
+      migrateNilaiGuruList(parsed.guru);
       return parsed;
     }catch(e){
       return {
@@ -3347,8 +3346,9 @@
   function guruStatusLabel(s){ return labelForStatus(guruStatusFromScore(s)); }
   function guruStatusClass(s){ return guruStatusFromScore(s); }
   // Skor per jenis instrumen
-  function guruSkorProses(g){ return guruNilaiPersen(g && g.proses ? g.proses.aspek : [], "proses"); }
-  function guruSkorAdministrasi(g){ return guruNilaiPersen(g && g.administrasi ? g.administrasi.aspek : [], "administrasi"); }
+  function clampNilai(v){ v = Math.round(Number(v)||0); return Math.max(0, Math.min(100, v)); }
+  function guruSkorProses(g){ return clampNilai(g && g.proses ? g.proses.nilai : 0); }
+  function guruSkorAdministrasi(g){ return clampNilai(g && g.administrasi ? g.administrasi.nilai : 0); }
   // Ambang batas "skor rendah" pada chip filter — bisa diubah pengguna (klik "ubah")
   function guruSkorRendahThreshold(){
     const t = Number(state.guruSkorRendahThreshold);
@@ -3408,11 +3408,11 @@
           ${sekolah?`<span style="font-size:10.5px; color:var(--ink-soft);">${escapeHtml(sekolah.nama)}</span>`:''}
         </div>
         <div class="guru-score-bar-wrap">
-          <div class="guru-score-label"><span>Proses Pembelajaran</span><b style="color:${colorProses};">${skorProses>0?skorProses+'%':'—'}</b></div>
+          <div class="guru-score-label"><span>Hasil Supervisi Pembelajaran</span><b style="color:${colorProses};">${skorProses>0?skorProses+'%':'—'}</b></div>
           <div class="guru-bar"><div style="width:${skorProses}%; background:${colorProses};"></div></div>
         </div>
         <div class="guru-score-bar-wrap" style="margin-top:8px;">
-          <div class="guru-score-label"><span>Administrasi Guru</span><b style="color:${colorAdmin};">${skorAdmin>0?skorAdmin+'%':'—'}</b></div>
+          <div class="guru-score-label"><span>Hasil Supervisi Administrasi</span><b style="color:${colorAdmin};">${skorAdmin>0?skorAdmin+'%':'—'}</b></div>
           <div class="guru-bar"><div style="width:${skorAdmin}%; background:${colorAdmin};"></div></div>
         </div>
         <div class="guru-last-supervisi">Terakhir — Proses: <b>${escapeHtml(tglProses)||'—'}</b> · Admin: <b>${escapeHtml(tglAdmin)||'—'}</b></div>
@@ -3455,42 +3455,10 @@
   let activeJenisInstrumen = "proses"; // 'proses' | 'administrasi'
 
   function jenisSuf(jenis){ return jenis === "administrasi" ? "Administrasi" : "Proses"; }
-  function jenisLabel(jenis){ return jenis === "administrasi" ? "Administrasi Guru" : "Proses Pembelajaran"; }
+  function jenisLabel(jenis){ return jenis === "administrasi" ? "Administrasi Pembelajaran" : "Pembelajaran"; }
   // Skala nilai per-aspek disamakan untuk kedua jenis instrumen:
   // skala rubrik 1–4 (Kurang, Cukup, Baik, Baik Sekali).
   function perAspekMax(jenis){ return 4; }
-
-  function renderAspekEditor(aspek, jenis){
-    const wrap = document.getElementById("aspekEditorWrap" + jenisSuf(jenis));
-    wrap.innerHTML = "";
-    aspek.forEach((a,idx)=>{
-      const row = document.createElement("div");
-      row.className = "aspek-row";
-      row.style.cssText = "grid-template-columns:1fr 60px 28px;";
-      row.innerHTML = `
-        <div class="aspek-label-wrap">
-          <input class="aspek-label-input" type="text" value="${escapeHtml(a.label)}" data-idx="${idx}" data-afield="label" placeholder="Nama aspek penilaian">
-          <textarea class="aspek-desc-input" data-idx="${idx}" data-afield="deskripsi" placeholder="Deskripsi / temuan observasi (opsional)..." rows="2">${escapeHtml(a.deskripsi||'')}</textarea>
-        </div>
-        <input class="aspek-score-input" type="number" min="0" max="${perAspekMax(jenis)}" value="${a.skor||0}" data-idx="${idx}" data-afield="skor">
-        <button type="button" class="icon-btn danger" data-aidx="${idx}" data-action="delAspek" title="Hapus aspek">✕</button>
-      `;
-      row.querySelectorAll("input,textarea").forEach(el=>{
-        el.addEventListener("input", ()=>updateSupervisiSummary(jenis));
-      });
-      wrap.appendChild(row);
-    });
-    updateSupervisiSummary(jenis);
-  }
-
-  function readAspekFromEditor(jenis){
-    const rows = document.querySelectorAll("#aspekEditorWrap" + jenisSuf(jenis) + " .aspek-row");
-    return Array.from(rows).map(row=>({
-      label: row.querySelector('[data-afield="label"]').value.trim() || "Aspek",
-      deskripsi: row.querySelector('[data-afield="deskripsi"]').value.trim(),
-      skor: Math.max(0, Math.min(perAspekMax(jenis), Number(row.querySelector('[data-afield="skor"]').value)||0))
-    }));
-  }
 
   // Persentase perolehan terhadap skor max (dipakai khusus untuk menentukan KATEGORI,
   // supaya kategori sinkron dengan ambang batas persentase 0–100 di menu Kategori Nilai,
@@ -3502,43 +3470,33 @@
     return max ? Math.round((sum/max)*100) : 0;
   }
 
+  // ===== Nilai hasil supervisi (input langsung 0–100, tanpa aspek instrumen) =====
+  function readNilaiFromForm(jenis){
+    const el = document.getElementById("gNilai" + jenisSuf(jenis));
+    return el ? clampNilai(el.value) : 0;
+  }
   function updateSupervisiSummary(jenis){
-    const aspek = readAspekFromEditor(jenis);
-    const nilaiPersen = guruNilaiPersen(aspek, jenis);
-    const st = guruStatusClass(nilaiPersen);
+    const nilai = readNilaiFromForm(jenis);
     const suf = jenisSuf(jenis);
     const scoreEl = document.getElementById("supervisiAvgScore" + suf);
     const badge = document.getElementById("supervisiAvgBadge" + suf);
-    if(scoreEl) scoreEl.textContent = (aspek.length && nilaiPersen > 0) ? nilaiPersen : "—";
+    if(scoreEl) scoreEl.textContent = nilai > 0 ? nilai : "—";
     if(badge){
-      badge.textContent = (aspek.length && nilaiPersen > 0) ? guruStatusLabel(nilaiPersen) : "—";
-      badge.className = "sum-status status-badge " + ((aspek.length && nilaiPersen > 0) ? st : "");
+      badge.textContent = nilai > 0 ? guruStatusLabel(nilai) : "—";
+      badge.className = "sum-status status-badge " + (nilai > 0 ? guruStatusClass(nilai) : "");
     }
-    renderSkorPenilaianBox(jenis, aspek);
+    renderSkorPenilaianBox(jenis, nilai);
   }
 
-  // ===== Kotak Skor Penilaian (jumlah nilai & nilai persentase guru) =====
-  function renderSkorPenilaianBox(jenis, aspek){
+  // Kotak nilai & kategori (kategori mengikuti ambang batas di menu Rapor → Kategori Nilai)
+  function renderSkorPenilaianBox(jenis, nilai){
     const suf = jenisSuf(jenis);
     const legendEl = document.getElementById("spbLegend" + suf);
-    const maxEl = document.getElementById("spbSkorMax" + suf);
-    const perolehanEl = document.getElementById("spbSkorPerolehan" + suf);
     const nilaiEl = document.getElementById("spbNilai" + suf);
     const kategoriEl = document.getElementById("spbKategori" + suf);
-    if(!legendEl || !maxEl || !perolehanEl || !nilaiEl || !kategoriEl) return;
+    if(!legendEl || !nilaiEl || !kategoriEl) return;
+    if(nilai === undefined) nilai = readNilaiFromForm(jenis);
 
-    aspek = aspek || readAspekFromEditor(jenis);
-    const jumlahAspek = aspek.length;
-    // Kedua jenis instrumen (Proses Pembelajaran & Administrasi Guru): nilai tiap aspek
-    // diisi dalam skala rubrik 1–4 (Kurang, Cukup, Baik, Baik Sekali), jadi Skor Max =
-    // jumlah aspek x 4. Skor Perolehan = jumlah (total) nilai semua aspek.
-    const skorPerolehan = aspek.reduce((a,b)=>a+Number(b.skor||0),0);
-    const skorMax = jumlahAspek * perAspekMax(jenis);
-    // Nilai = (Skor Perolehan ÷ Skor Max) x 100 — dan KATEGORI ditentukan dari persentase
-    // ini, mengikuti rentang skor maksimal per kategori yang diatur di menu Kategori Nilai.
-    const nilaiPersen = guruNilaiPersen(aspek, jenis);
-
-    // Legenda kategori nilai, diurutkan dari yang tertinggi (mengikuti Standar Penilaian di menu Instrumen)
     const kategoriUrut = [...getKategoriNilai()].sort((a,b)=>
       (b.max===null||b.max===undefined ? Infinity : b.max) - (a.max===null||a.max===undefined ? Infinity : a.max)
     );
@@ -3549,15 +3507,10 @@
       </div>
     `).join("");
 
-    maxEl.textContent = jumlahAspek ? skorMax : "—";
-    perolehanEl.textContent = jumlahAspek ? skorPerolehan : "—";
-    nilaiEl.textContent = jumlahAspek ? nilaiPersen : "—";
-
-    if(jumlahAspek && skorPerolehan > 0){
-      const status = guruStatusClass(nilaiPersen);
-      const color = colorForStatus(status);
-      kategoriEl.textContent = guruStatusLabel(nilaiPersen);
-      kategoriEl.style.background = color;
+    nilaiEl.textContent = nilai > 0 ? nilai : "—";
+    if(nilai > 0){
+      kategoriEl.textContent = guruStatusLabel(nilai);
+      kategoriEl.style.background = colorForStatus(guruStatusClass(nilai));
       kategoriEl.style.color = "var(--white)";
     } else {
       kategoriEl.textContent = "—";
@@ -3597,19 +3550,17 @@
     [...riwayat].reverse().forEach((r,i)=>{
       const div = document.createElement("div");
       div.className = "riwayat-item";
-      const avg = Math.round(r.aspek.reduce((a,b)=>a+b.skor,0)/r.aspek.length);
+      const nilaiR = clampNilai(r.nilai);
+      const katR = nilaiR > 0 ? guruStatusLabel(nilaiR) : "—";
       div.innerHTML = `
         <div class="riwayat-head" onclick="this.nextElementSibling.classList.toggle('open')">
           <div class="rh-left">
-            <span class="rh-date">📅 ${escapeHtml(r.tgl)} · Rata-rata: <b>${avg}</b></span>
-            <span class="rh-score">${r.aspek.length} aspek · ${escapeHtml(r.catatan||'').slice(0,60)}${(r.catatan||'').length>60?'…':''}</span>
+            <span class="rh-date">📅 ${escapeHtml(r.tgl)} · Nilai: <b>${nilaiR||"—"}</b> · ${escapeHtml(katR)}</span>
+            <span class="rh-score">${escapeHtml(r.catatan||'').slice(0,60)}${(r.catatan||'').length>60?'…':''}</span>
           </div>
           <span style="color:var(--ink-soft); font-size:12px;">▾</span>
         </div>
         <div class="riwayat-body">
-          <div class="riwayat-aspek">
-            ${r.aspek.map(a=>`<div class="ra-row"><span>${escapeHtml(a.label)}</span><b>${a.skor}</b></div>${a.deskripsi?`<div style="font-size:11.5px;color:var(--ink-soft);padding:2px 0 6px;">${escapeHtml(a.deskripsi)}</div>`:''}`).join('')}
-          </div>
           ${r.catatan?`<div style="margin-top:10px;font-size:12.5px;color:var(--ink);line-height:1.6;"><b>Catatan:</b> ${escapeHtml(r.catatan)}</div>`:''}
           ${r.rekomendasi&&r.rekomendasi.length?`<div style="margin-top:8px;font-size:12px;color:var(--ink-soft);"><b>Rekomendasi:</b><ul style="margin-left:16px;margin-top:4px;">${r.rekomendasi.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></div>`:''}
         </div>
@@ -3644,7 +3595,7 @@
 
     populateGuruSchoolFilter();
     document.getElementById("modalGuruTitle").textContent = isNew ? "Tambah Guru Baru" : escapeHtml(g.nama);
-    document.getElementById("modalGuruSub").textContent = isNew ? "Isi profil dan aspek penilaian guru" : escapeHtml(g.mapel||"");
+    document.getElementById("modalGuruSub").textContent = isNew ? "Isi profil dan nilai hasil supervisi guru" : escapeHtml(g.mapel||"");
     document.getElementById("gNama").value = g.nama||"";
     document.getElementById("gNip").value = g.nip||"";
     document.getElementById("gMapel").value = g.mapel||"";
@@ -3657,7 +3608,8 @@
       const suf = jenisSuf(jenis);
       document.getElementById("gTglSupervisi"+suf).value = inst.tglSupervisi||"";
       document.getElementById("gCatatan"+suf).value = inst.catatan||"";
-      renderAspekEditor(inst.aspek && inst.aspek.length ? inst.aspek : JSON.parse(JSON.stringify(stateTemplateForJenis(jenis))), jenis);
+      document.getElementById("gNilai"+suf).value = inst.nilai > 0 ? inst.nilai : "";
+      updateSupervisiSummary(jenis);
       renderRekomendasiEditor(inst.rekomendasi||[], jenis);
       renderRiwayat(inst.riwayat||[], jenis);
     });
@@ -3686,8 +3638,9 @@
     return {
       tglSupervisi: document.getElementById("gTglSupervisi"+suf).value.trim(),
       catatan: document.getElementById("gCatatan"+suf).value.trim(),
+      nilai: readNilaiFromForm(jenis),
       rekomendasi: readRekomendasiFromEditor(jenis),
-      aspek: readAspekFromEditor(jenis),
+      aspek: [],
       riwayat: existingRiwayat || []
     };
   }
@@ -3736,24 +3689,25 @@
     const jenis = activeJenisInstrumen;
     const suf = jenisSuf(jenis);
     if(!g[jenis]) g[jenis] = emptyInstrumenGuru(jenis);
-    const aspek = readAspekFromEditor(jenis);
     const snapshot = {
       tgl: document.getElementById("gTglSupervisi"+suf).value.trim() || new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}),
-      aspek: JSON.parse(JSON.stringify(aspek)),
+      nilai: readNilaiFromForm(jenis),
       catatan: document.getElementById("gCatatan"+suf).value.trim(),
       rekomendasi: readRekomendasiFromEditor(jenis)
     };
     if(!g[jenis].riwayat) g[jenis].riwayat = [];
     g[jenis].riwayat.push(snapshot);
-    // Reset current aspek scores for new session (jenis aktif saja)
-    g[jenis].aspek = aspek.map(a=>({...a, deskripsi:"", skor:0}));
+    // Reset nilai untuk sesi baru (jenis aktif saja)
+    g[jenis].nilai = 0;
+    g[jenis].aspek = [];
     g[jenis].tglSupervisi = "";
     g[jenis].catatan = "";
     g[jenis].rekomendasi = [];
     state.guru[idx] = g;
     saveState();
     renderRiwayat(g[jenis].riwayat, jenis);
-    renderAspekEditor(g[jenis].aspek, jenis);
+    document.getElementById("gNilai"+suf).value = "";
+    updateSupervisiSummary(jenis);
     renderRekomendasiEditor([], jenis);
     document.getElementById("gCatatan"+suf).value = "";
     document.getElementById("gTglSupervisi"+suf).value = "";
@@ -3836,6 +3790,7 @@
         if(!base.administrasi) base.administrasi = emptyInstrumenGuru("administrasi");
         return base;
       });
+      migrateNilaiGuruList(guruArr);
       const jumlah = guruArr.length;
       if(!confirm(`Impor ${jumlah} data guru. Pilih tindakan:\n\n• OK = GABUNGKAN dengan data guru yang ada (guru dengan ID sama akan diperbarui)\n• Batal = Batalkan impor`)){
         return;
@@ -3889,18 +3844,7 @@
   });
   ["proses","administrasi"].forEach(jenis=>{
     const suf = jenisSuf(jenis);
-    document.getElementById("aspekEditorWrap"+suf).addEventListener("click",e=>{
-      if(e.target.dataset.action==="delAspek"){
-        const aspek = readAspekFromEditor(jenis);
-        aspek.splice(Number(e.target.dataset.aidx),1);
-        renderAspekEditor(aspek, jenis);
-      }
-    });
-    document.getElementById("btnAddAspek"+suf).addEventListener("click",()=>{
-      const aspek = readAspekFromEditor(jenis);
-      aspek.push({ label:"Aspek Baru", deskripsi:"", skor:0 });
-      renderAspekEditor(aspek, jenis);
-    });
+    document.getElementById("gNilai"+suf).addEventListener("input", ()=>updateSupervisiSummary(jenis));
     document.getElementById("rekomendasiList"+suf).addEventListener("click",e=>{
       if(e.target.dataset.action==="delRek"){
         const reks = readRekomendasiFromEditor(jenis);
@@ -4407,7 +4351,7 @@
   });
   document.getElementById("btnRhsExcel").addEventListener("click", ()=>{
     const rows = rhsRows();
-    const data = [["No","Nama Guru","NIP","Sekolah","Nilai Proses Pembelajaran","Nilai Administrasi Guru","Nilai Rapor","Kategori"]];
+    const data = [["No","Nama Guru","NIP","Sekolah","Hasil Supervisi Pembelajaran","Hasil Supervisi Administrasi Pembelajaran","Nilai Rapor","Kategori"]];
     rows.forEach((r,i)=>data.push([i+1, r.g.nama, r.g.nip||"", r.sekolah, r.proses||"", r.admin||"", r.akhir||"", r.key?labelForStatus(r.key):"Belum disupervisi"]));
     const ws = XLSX.utils.aoa_to_sheet(data);
     ws["!cols"] = [{wch:5},{wch:34},{wch:20},{wch:28},{wch:16},{wch:16},{wch:12},{wch:18}];
