@@ -2512,6 +2512,9 @@
     }
   }
 
+  // Harus dideklarasikan SEBELUM loadStateWithGuru() dipanggil di bawah; kalau tidak, memuat data tersimpan
+  // gagal (ReferenceError) dan semua perubahan kembali ke data contoh setiap halaman dibuka ulang.
+  const ASPEK_PROSES_TEMPLATE_VERSION = 2;
   let state = loadStateWithGuru();
   let activeSekolahId = null;
   let activeAgendaId = null;
@@ -3223,10 +3226,6 @@
     }));
   }
 
-  // Menaikkan angka ini akan memaksa template "Supervisi Proses Pembelajaran"
-  // yang tersimpan di localStorage browser (dari sesi sebelumnya) diperbarui
-  // mengikuti DEFAULT_ASPEK_TEMPLATE_PROSES terbaru di atas, satu kali saja.
-  const ASPEK_PROSES_TEMPLATE_VERSION = 2;
   function migrateGuruShape(parsed){
     if(!parsed.aspekTemplateProses || !parsed.aspekTemplateProses.length){
       parsed.aspekTemplateProses = (parsed.aspekTemplate && parsed.aspekTemplate.length)
