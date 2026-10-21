@@ -477,6 +477,26 @@
     .laporan-table{ font-size:11px; }
   }
 
+  /* ===== Rapor Hasil Supervisi ===== */
+  .rhs-toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:18px; }
+  .rhs-toolbar select{ padding:9px 12px; border:1px solid var(--line); border-radius:var(--radius); background:var(--white); font-family:'Manrope',sans-serif; font-size:13px; color:var(--ink); min-width:220px; }
+  .rhs-toolbar .spacer{ flex:1; }
+  .rhs-chips{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+  .rhs-chip{ background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:12px 18px; min-width:140px; border-left-width:3px; }
+  .rhs-chip .n{ font-family:'Source Serif 4',serif; font-size:22px; font-weight:700; line-height:1.1; }
+  .rhs-chip .l{ font-size:11.5px; color:var(--ink-soft); margin-top:3px; font-weight:600; }
+  .rhs-kat{ display:inline-block; font-size:11px; font-weight:700; padding:3px 11px; border-radius:20px; color:#fff; white-space:nowrap; }
+  .rhs-nilai{ text-align:center; font-family:'Source Serif 4',serif; font-weight:700; font-size:14px; }
+  .rhs-print-head{ display:none; margin-bottom:14px; }
+  @media print{
+    body.print-rapor .view-panel{ display:none !important; }
+    body.print-rapor #viewInstrumen{ display:block !important; padding:0; }
+    body.print-rapor #viewInstrumen .no-print,
+    body.print-rapor #viewInstrumen .instrumen-tabs{ display:none !important; }
+    body.print-rapor .rhs-print-head{ display:block; }
+    body.print-rapor .rhs-kat{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
   :focus-visible{ outline: 2px solid var(--gold); outline-offset:2px; }
 
   /* ===== Settings button (topbar) ===== */
@@ -1022,7 +1042,7 @@
     <div class="nav-group">
       <span class="nav-label">Pembinaan</span>
       <div class="nav-item" data-view="agenda"><span class="nav-icon">▦</span> Agenda Kunjungan</div>
-      <div class="nav-item" data-view="instrumen"><span class="nav-icon">▤</span> Instrumen Supervisi</div>
+      <div class="nav-item" data-view="instrumen"><span class="nav-icon">▤</span> Rapor Hasil Supervisi</div>
       <div class="nav-item" data-view="laporan"><span class="nav-icon">▥</span> Laporan & Dokumen</div>
     </div>
 
@@ -1358,20 +1378,50 @@
     <div class="content view-panel" id="viewInstrumen">
       <div class="section-head" style="margin-top:0;">
         <div>
-          <span class="eyebrow">Standar Penilaian</span>
-          <h3>Instrumen Supervisi</h3>
+          <span class="eyebrow">Nilai &amp; Kategori</span>
+          <h3>Rapor Hasil Supervisi</h3>
         </div>
       </div>
 
       <!-- Tab switch -->
       <div class="instrumen-tabs">
-        <div class="instrumen-tab active" data-itab="sekolah">Instrumen Sekolah</div>
-        <div class="instrumen-tab" data-itab="guru">Aspek Supervisi Guru</div>
+        <div class="instrumen-tab active" data-itab="rapor">Nilai Rapor</div>
         <div class="instrumen-tab" data-itab="kategori">Kategori Nilai</div>
       </div>
 
-      <!-- Tab: Instrumen Sekolah -->
-      <div class="instrumen-pane active" data-itab="sekolah">
+      <!-- Tab: Nilai Rapor Hasil Supervisi (hanya nilai & kategori) -->
+      <div class="instrumen-pane active" data-itab="rapor">
+        <div class="rhs-print-head">
+          <h3 class="serif" style="font-size:18px;">Rapor Hasil Supervisi Guru</h3>
+          <p id="rhsPrintSub" style="font-size:12px;color:var(--ink-soft);margin-top:2px;"></p>
+        </div>
+        <div class="rhs-toolbar no-print">
+          <select id="rhsSekolahFilter" aria-label="Filter sekolah"><option value="semua">Semua Sekolah</option></select>
+          <select id="rhsKategoriFilter" aria-label="Filter kategori"><option value="semua">Semua Kategori</option></select>
+          <span class="spacer"></span>
+          <button class="btn btn-outline" id="btnRhsExcel">⬇ Unduh Excel</button>
+          <button class="btn btn-primary" id="btnRhsCetak">🖨 Cetak Rapor</button>
+        </div>
+        <div class="rhs-chips" id="rhsChips"></div>
+        <div style="overflow-x:auto;">
+          <table class="laporan-table" id="rhsTable">
+            <thead><tr>
+              <th style="width:44px;">No</th><th>Nama Guru</th><th>Sekolah</th>
+              <th style="text-align:center;">Nilai Proses Pembelajaran</th>
+              <th style="text-align:center;">Nilai Administrasi Guru</th>
+              <th style="text-align:center;">Nilai Rapor</th>
+              <th>Kategori</th>
+            </tr></thead>
+            <tbody id="rhsBody"></tbody>
+          </table>
+        </div>
+        <p class="no-print" style="font-size:12px;color:var(--ink-soft);margin-top:12px;line-height:1.6;">
+          Nilai Rapor = rata-rata nilai Proses Pembelajaran dan Administrasi Guru yang sudah terisi. Kategori mengikuti ambang batas pada tab <b>Kategori Nilai</b>.
+        </p>
+      </div>
+
+      <!-- (Instrumen Sekolah dan Aspek Guru disembunyikan; elemen dipertahankan agar kode lain tidak error) -->
+      <div class="instrumen-pane" data-itab="sekolah" style="display:none !important;">
         <p style="font-size:13px; color:var(--ink-soft); margin-bottom:20px; line-height:1.6;">
           Komponen di bawah ini menjadi acuan penilaian pada setiap sekolah binaan. Template ini otomatis dipakai saat menambah sekolah baru. Untuk sekolah yang <b>sudah ada</b>, gunakan tombol <b>Sinkronkan ke Semua Sekolah</b> agar daftar komponen instrumennya ikut diperbarui sesuai template terbaru (skor pada komponen yang labelnya sama akan tetap dipertahankan). Gunakan tombol <b>📤 Impor Word/Excel</b> untuk memuat daftar komponen langsung dari file instrumen (.docx, .xlsx, .xls, .csv, atau .txt) — setiap baris/baris tabel akan dibaca sebagai satu komponen.
         </p>
@@ -1393,7 +1443,7 @@
       </div>
 
       <!-- Tab: Aspek Guru (2 instrumen: Proses Pembelajaran & Administrasi Guru) -->
-      <div class="instrumen-pane" data-itab="guru">
+      <div class="instrumen-pane" data-itab="guru" style="display:none !important;">
         <p style="font-size:13px; color:var(--ink-soft); margin-bottom:16px; line-height:1.6;">
           Ada <b>2 instrumen supervisi guru</b>: <b>Supervisi Proses Pembelajaran</b> dan <b>Supervisi Administrasi Guru</b>. Aspek di bawah ini menjadi acuan penilaian pada setiap sesi supervisi. Template ini otomatis dipakai saat menambah guru baru. Untuk guru yang <b>sudah ada</b>, gunakan tombol <b>Sinkronkan ke Semua Guru</b> agar daftar aspek penilaiannya ikut diperbarui sesuai instrumen terbaru (skor pada aspek yang labelnya sama akan tetap dipertahankan). Gunakan tombol <b>📤 Impor Word/Excel</b> pada masing-masing jenis instrumen untuk memuat aspek langsung dari file instrumen supervisi yang sudah dimiliki (.docx, .xlsx, .xls, .csv, atau .txt).
         </p>
@@ -4293,7 +4343,87 @@
     }).join("");
   }
 
+  // ===== Rapor Hasil Supervisi: hanya nilai & kategori =====
+  function rhsRows(){
+    const sekFilter = (document.getElementById("rhsSekolahFilter")||{}).value || "semua";
+    const katFilter = (document.getElementById("rhsKategoriFilter")||{}).value || "semua";
+    const sekMap = Object.fromEntries((state.sekolah||[]).map(s=>[s.id, s.nama]));
+    let rows = (state.guru||[]).map(g=>{
+      const proses = guruSkorProses(g), admin = guruSkorAdministrasi(g), akhir = guruOverallScore(g);
+      const key = akhir>0 ? autoStatusFromScore(akhir) : null;
+      return { g, sekolahId:g.sekolahId, sekolah:sekMap[g.sekolahId]||"—", proses, admin, akhir, key };
+    });
+    if(sekFilter!=="semua") rows = rows.filter(r=>r.sekolahId===sekFilter);
+    if(katFilter==="belum") rows = rows.filter(r=>!r.key);
+    else if(katFilter!=="semua") rows = rows.filter(r=>r.key===katFilter);
+    return rows;
+  }
+  function populateRhsFilters(){
+    const sf = document.getElementById("rhsSekolahFilter"), kf = document.getElementById("rhsKategoriFilter");
+    if(!sf || !kf) return;
+    const sv = sf.value, kv = kf.value;
+    sf.innerHTML = '<option value="semua">Semua Sekolah</option>' + (state.sekolah||[]).map(s=>`<option value="${escapeHtml(s.id)}">${escapeHtml(s.nama)}</option>`).join("");
+    kf.innerHTML = '<option value="semua">Semua Kategori</option>' + getKategoriNilai().map(k=>`<option value="${escapeHtml(k.key)}">${escapeHtml(k.label)}</option>`).join("") + '<option value="belum">Belum disupervisi</option>';
+    if([...sf.options].some(o=>o.value===sv)) sf.value = sv;
+    if([...kf.options].some(o=>o.value===kv)) kf.value = kv;
+  }
+  function renderRaporSupervisi(){
+    const body = document.getElementById("rhsBody");
+    if(!body) return;
+    populateRhsFilters();
+    const rows = rhsRows();
+    const chips = document.getElementById("rhsChips");
+    const kat = getKategoriNilai();
+    const hitung = key => rows.filter(r=>r.key===key).length;
+    chips.innerHTML = kat.map(k=>`<div class="rhs-chip" style="border-left-color:${k.color};"><div class="n" style="color:${k.color};">${hitung(k.key)}</div><div class="l">${escapeHtml(k.label)}</div></div>`).join("")
+      + `<div class="rhs-chip" style="border-left-color:var(--line);"><div class="n" style="color:var(--ink-soft);">${rows.filter(r=>!r.key).length}</div><div class="l">Belum disupervisi</div></div>`;
+    if(!rows.length){
+      body.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:22px;">Belum ada data guru pada filter ini.</td></tr>`;
+    } else {
+      body.innerHTML = rows.map((r,i)=>{
+        const cell = v => v>0 ? v : "—";
+        const badge = r.key ? `<span class="rhs-kat" style="background:${colorForStatus(r.key)};">${escapeHtml(labelForStatus(r.key))}</span>` : `<span style="color:var(--ink-soft);font-size:12px;">Belum disupervisi</span>`;
+        return `<tr>
+          <td>${i+1}</td>
+          <td style="font-weight:600;">${escapeHtml(r.g.nama)}</td>
+          <td>${escapeHtml(r.sekolah)}</td>
+          <td class="rhs-nilai">${cell(r.proses)}</td>
+          <td class="rhs-nilai">${cell(r.admin)}</td>
+          <td class="rhs-nilai" style="color:${r.key?colorForStatus(r.key):'var(--ink-soft)'};">${cell(r.akhir)}</td>
+          <td>${badge}</td>
+        </tr>`;
+      }).join("");
+    }
+    const sub = document.getElementById("rhsPrintSub");
+    if(sub){
+      const sf = document.getElementById("rhsSekolahFilter");
+      const nama = sf && sf.value!=="semua" ? sf.options[sf.selectedIndex].text : "Semua Sekolah Binaan";
+      sub.textContent = nama + " — Dicetak " + new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+    }
+  }
+  ["rhsSekolahFilter","rhsKategoriFilter"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener("change", renderRaporSupervisi);
+  });
+  document.getElementById("btnRhsExcel").addEventListener("click", ()=>{
+    const rows = rhsRows();
+    const data = [["No","Nama Guru","NIP","Sekolah","Nilai Proses Pembelajaran","Nilai Administrasi Guru","Nilai Rapor","Kategori"]];
+    rows.forEach((r,i)=>data.push([i+1, r.g.nama, r.g.nip||"", r.sekolah, r.proses||"", r.admin||"", r.akhir||"", r.key?labelForStatus(r.key):"Belum disupervisi"]));
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws["!cols"] = [{wch:5},{wch:34},{wch:20},{wch:28},{wch:16},{wch:16},{wch:12},{wch:18}];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Rapor Hasil Supervisi");
+    XLSX.writeFile(wb, "Rapor_Hasil_Supervisi_Guru.xlsx");
+  });
+  document.getElementById("btnRhsCetak").addEventListener("click", ()=>{
+    renderRaporSupervisi();
+    document.body.classList.add("print-rapor");
+    setTimeout(()=>window.print(), 100);
+  });
+  window.addEventListener("afterprint", ()=>document.body.classList.remove("print-rapor"));
+
   function renderViewInstrumen(){
+    renderRaporSupervisi();
     renderSekolahInstrumenTemplateEditor();
     renderInstrumenSekolahRekap();
     renderAspekTemplateEditor("proses");
@@ -4386,6 +4516,7 @@
     renderInstrumenSekolahRekap();
     renderInstrumenGuruRekap("proses");
     renderInstrumenGuruRekap("administrasi");
+    renderRaporSupervisi();
   }
 
   document.getElementById("btnSimpanKategoriNilai").addEventListener("click", ()=>{
@@ -4552,6 +4683,7 @@
       document.querySelectorAll(".instrumen-pane").forEach(p=>p.classList.remove("active"));
       tab.classList.add("active");
       document.querySelector(`.instrumen-pane[data-itab="${tab.dataset.itab}"]`).classList.add("active");
+      if(tab.dataset.itab==="rapor") renderRaporSupervisi();
     });
   });
 
